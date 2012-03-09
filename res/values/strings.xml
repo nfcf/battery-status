@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Battery Status - Pachube</string>
+	<string name="crashText">Oooops! Something wrong happened&#8230;\n\nA report has been sent to help my developer fix the issue!</string>
+	<string name="pleaseWait">Please wait&#8230;</string>
+	<string name="msgStartServices">Pachube data collection started!</string>
+	<string name="msgStopServices">Pachube data collection stopped!</string>
+	<string name="btnStartServices">Start collecting data</string>
+	<string name="btnStopServices">Stop collecting data</string>
+	<string name="btnForceSync">Force Sync</string>
+	<string name="msgSyncSuccess">Data sent successfully!</string>
+	<string name="msgSyncFailure">Ups! An error occurred while sending the data. Please try again later.</string>
+	<string name="msgSyncNoData">There\'s no data to be sent.</string>
+	<string name="msgWrongKey">Wrong API Key in settings. A new one was set!</string>
+	<string name="msgWrongFeed">Wrong Feed in settings. A new one was set!</string>
+	<string name="msgWrongKeyAndFeed">Wrong API Key and Feed in settings. New ones were set.</string>
+	<string name="saveSettings">Save settings</string>
+	<string name="cancel">Cancel</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="changeSettings">Change settings</string>
+	<string name="settings">Settings</string>
+	<string name="settingsInfo">If you don\'t have a Pachube account yet, you can create one at &lt;a href=&quot;https://pachube.com/signup&quot;&gt;https://pachube.com/signup&lt;/a&gt;</string>
+	<string name="questionText">Do you wish to use the same settings as before?</string>
+	<string name="userMissing">The username field is mandatory.</string>
+	<string name="passOrKeyMissing">You need to set either the password field or the API key field.</string>
+	<string name="username">Username (mandatory)</string>
+	<string name="password">Password (set this or the API Key)</string>
+	<string name="privateAccess">Make feed private?</string>
+	<string name="apiKey">API Key (if you have one)</string>
+	<string name="feedID">Feed ID (if you have one)</string>
+	<string name="batteryInterval">Collect data interval (minutes)</string>
+	<string name="pachubeInterval">Send data interval (minutes)</string>
+	<string name="couldNotConnect">Couldn\'t connect to Pachube server.</string>
+	<string name="wrongCredentials">Your credentials may be wrong.</string>
+	<string name="noInternetConnection">Make sure you have an active internet connection.</string>
+	<string name="errorKey">An error occurred while trying to create the API key.</string>
+	<string name="errorFeed">An error occurred while trying to create the Pachube feed.</string>
+	<string name="infoPrivateFeed">* Since you have opted for having a private feed, this link will only work if you login at &lt;a href=&quot;https://pachube.com/feeds/?user=%1$s&quot;&gt;Pachube&lt;/a&gt; first.</string>
+	<string name="titleViewFeed">&lt;a href=&quot;https://pachube.com/feeds/%1$s&quot;&gt;View Feed #%2$s&lt;/a&gt;%3$s</string>
+</resources>

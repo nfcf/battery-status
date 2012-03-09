@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/rlMain"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_centerInParent="true">
+
+
+		<LinearLayout
+		    android:id="@+id/linearLayout1"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:gravity="center"
+		    android:orientation="vertical" >
+		    
+			<TextView
+				android:id="@+id/tvTitleFeed"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:text=""
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textStyle="bold" />
+
+
+			<RelativeLayout
+				android:id="@+id/rlBattery"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+ 
+				<ImageView
+					android:id="@+id/ivBattery"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center"
+					android:contentDescription="@string/app_name"
+					android:src="@drawable/battery5" />
+
+				<Button
+					android:id="@+id/btnForceSync"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignTop="@+id/ivBattery"
+					android:background="@android:color/transparent"
+					android:drawableTop="@drawable/refresh_selector"
+					android:onClick="btnForceSync_onClick" />
+
+				<Button
+					android:id="@+id/btnStartStopService"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignBottom="@+id/ivBattery"
+					android:background="@android:color/transparent"
+					android:drawableTop="@drawable/start_selector"
+					android:onClick="btnStartStopServices_onClick" />
+			</RelativeLayout>
+			
+			<TextView
+				android:id="@+id/tvInfoFeed"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:text="@string/infoPrivateFeed"
+				android:textAppearance="?android:attr/textAppearanceSmall" 
+				android:layout_marginLeft="5dp"/>
+	</LinearLayout>
+
+</RelativeLayout>
