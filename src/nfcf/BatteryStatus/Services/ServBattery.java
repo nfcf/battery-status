@@ -85,7 +85,7 @@ public class ServBattery extends Service {
 			db.setDatapoint(AppContext.BLUETOOTH, LastValue.getBluetoothState());
 			
 			//Update RxTx Traffic stats
-			long RxTxBytes = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalRxBytes();
+			long RxTxBytes = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
 			long valueToRecord = RxTxBytes - LastValue.getRxTxBytes() >= 0 ? RxTxBytes - LastValue.getRxTxBytes() : RxTxBytes;
 			db.setDatapoint(AppContext.RXTX, valueToRecord);
 			LastValue.setRxTxBytes(RxTxBytes);

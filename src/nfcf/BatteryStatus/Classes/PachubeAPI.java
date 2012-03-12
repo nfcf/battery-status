@@ -464,7 +464,7 @@ public class PachubeAPI
 			jsonTagsArray.put("Battery Status");
 			jsonTagsArray.put("Android");
 
-			jsonCreateFeedObject.put("location", jsonLocationObject);
+			jsonCreateFeedObject.put("location", jsonLocationObject);  
 			jsonLocationObject.put("disposition", "Mobile");
 			jsonLocationObject.put("name", AppContext.getContext().getResources().getConfiguration().locale.getDisplayCountry(Locale.getDefault()));
 			jsonLocationObject.put("exposure", "Outdoor");
