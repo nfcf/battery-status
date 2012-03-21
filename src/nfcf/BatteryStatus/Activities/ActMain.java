@@ -3,15 +3,13 @@ package nfcf.BatteryStatus.Activities;
 import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.Classes.PachubeAPI;
 import nfcf.BatteryStatus.Classes.Settings;
-import nfcf.BatteryStatus.Services.ServOtherData;
-import nfcf.BatteryStatus.Services.ServPachube;
+import nfcf.BatteryStatus.Services.ServSendData;
 import nfcf.BatteryStatus.Utils.PhoneUtils;
 import nfcf.BatteryStatus.Utils.StringUtils;
 
 import nfcf.BatteryStatus.R;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -67,12 +65,12 @@ public class ActMain extends Activity {
     @Override
     public void onResume() {
     	super.onResume();
-    	AppContext.tracker.trackPageView("Main Screen");
+    	//AppContext.tracker.trackPageView("Main Screen");
     }
     
     @Override
     public void onDestroy() {
-    	AppContext.tracker.stopSession(); 
+    	//AppContext.tracker.stopSession(); 
     	unregisterReceiver(actMainReceiver);
     	super.onDestroy();
     }
@@ -111,14 +109,14 @@ public class ActMain extends Activity {
  
     public void btnForceSync_onClick(View v) {
     	
-    	AppContext.tracker.trackEvent("Button Pressed", "Force Sync", null, 0);
+    	//AppContext.tracker.trackEvent("Button Pressed", "Force Sync", null, 0);
     	
     	if (Settings.getServiceStarted()) {
     		final ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.pleaseWait), true);
         	
     		Thread t = new Thread(new Runnable(){
     			public void run() {
-    				String msg = ServPachube.sendDataPoints();
+    				String msg = ServSendData.sendDataPoints();
     				dialog.dismiss();
     				
     				Intent i = new Intent();
@@ -135,12 +133,12 @@ public class ActMain extends Activity {
 
     	if (Settings.getServiceStarted()) {
 
-    		AppContext.tracker.trackEvent("Button Pressed", "Stop Services", null, 0);
-    		stopService();
+    		//AppContext.tracker.trackEvent("Button Pressed", "Stop Services", null, 0);
+    		AppContext.stopServices();
     		
     	} else {
     		if (StringUtils.isNullOrBlank(Settings.getKey())){
-    			AppContext.tracker.trackEvent("Button Pressed", "Settings", null, 0);
+    			//AppContext.tracker.trackEvent("Button Pressed", "Settings", null, 0);
     			Intent myIntent = new Intent(v.getContext(), ActSettings.class);
     			startActivityForResult(myIntent, 0);
     		} else {
@@ -151,7 +149,7 @@ public class ActMain extends Activity {
 				.setNegativeButton(getString(R.string.changeSettings),
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
-								AppContext.tracker.trackEvent("Button Pressed", "Go To Settings", null, 0);
+								//AppContext.tracker.trackEvent("Button Pressed", "Go To Settings", null, 0);
 								Intent myIntent = new Intent(AppContext.getContext(), ActSettings.class);
 								startActivityForResult(myIntent, 0);
 							}
@@ -159,7 +157,7 @@ public class ActMain extends Activity {
 				.setPositiveButton(getString(R.string.yes),
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
-								AppContext.tracker.trackEvent("Button Pressed", "Start Services", null, 0);
+								//AppContext.tracker.trackEvent("Button Pressed", "Start Services", null, 0);
 								launchServices();
 							}
 						}).show();
@@ -277,20 +275,7 @@ protected void launchServices() {
  
     
     
-    protected void stopService() {   	
-    	AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-		alarmManager.cancel(AppContext.pendingBatteryIntent);
-		if (Settings.getPachubeInterval() > 0) {
-			alarmManager.cancel(AppContext.pendingPachubeIntent);
-		} else {
-			stopService(new Intent(this, ServPachube.class));
-		}
-		stopService(new Intent(this, ServOtherData.class));
-		
-		Settings.setServiceStarted(false);
-		Toast.makeText(ActMain.this, R.string.msgStopServices, Toast.LENGTH_LONG).show();
-		updateControls();
-    }
+    
 
     private BroadcastReceiver actMainReceiver = new BroadcastReceiver() {
 

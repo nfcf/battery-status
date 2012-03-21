@@ -3,7 +3,6 @@ package nfcf.BatteryStatus.Services;
 import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.Classes.DAL;
 import nfcf.BatteryStatus.Classes.LastValue;
-
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -17,7 +16,8 @@ import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-public class ServOtherData extends Service {
+
+public class ServCollectData extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -27,27 +27,8 @@ public class ServOtherData extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		Log.d("Other Data Service", "Stopping");
-
-		//if (Settings.getServiceStarted()) {
-		unregisterReceiver(screenReceiver);
-		unregisterReceiver(wifiReceiver);
-		unregisterReceiver(networkReceiver);
-		unregisterReceiver(bluetoothReceiver);
-		unregisterReceiver(phoneCallReceiver);
-		//}
-	}
-
-	@Override
-	public void onStart(Intent intent, int startid) {
-		super.onStart(intent, startid);
 		Log.d("Other Data Service", "Starting");
-
+		
 		IntentFilter filter1 = new IntentFilter(Intent.ACTION_SCREEN_ON);
 		registerReceiver(screenReceiver, filter1);
 		IntentFilter filter2 = new IntentFilter(Intent.ACTION_SCREEN_OFF);
@@ -62,6 +43,26 @@ public class ServOtherData extends Service {
 		registerReceiver(bluetoothReceiver, filter6);
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.d("Other Data Service", "Stopping");
+
+		unregisterReceiver(screenReceiver);
+		unregisterReceiver(wifiReceiver);
+		unregisterReceiver(networkReceiver);
+		unregisterReceiver(bluetoothReceiver);
+		unregisterReceiver(phoneCallReceiver);
+	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		super.onStartCommand(intent, flags, startId);
+
+		// I want this service to continue running until it is explicitly
+        // stopped. So return Start_Sticky.
+        return START_STICKY;
+	}
 
 	private BroadcastReceiver screenReceiver = new BroadcastReceiver() {
 
@@ -102,6 +103,7 @@ public class ServOtherData extends Service {
 	public static final int NETWORK_TYPE_EHRPD=14; // Level 11
 	public static final int NETWORK_TYPE_HSPAP=15; // Level 13
 	public static final int NETWORK_TYPE_LTE=13; // Level 11
+	public static final int NETWORK_TYPE_EVDO_B=12; // Level 9
 
 	private BroadcastReceiver networkReceiver = new BroadcastReceiver() {
 		@Override
@@ -119,7 +121,7 @@ public class ServOtherData extends Service {
         	} else if (networkType == TelephonyManager.NETWORK_TYPE_EDGE || networkType == TelephonyManager.NETWORK_TYPE_1xRTT) {
         		db.setDatapoint(AppContext.NETWORK, 25);
         		LastValue.setNetworkState(25);
-        	} else if (networkType == TelephonyManager.NETWORK_TYPE_UMTS || networkType == TelephonyManager.NETWORK_TYPE_HSPA || networkType == NETWORK_TYPE_EHRPD || networkType == TelephonyManager.NETWORK_TYPE_EVDO_0 || networkType == TelephonyManager.NETWORK_TYPE_EVDO_A || networkType == TelephonyManager.NETWORK_TYPE_EVDO_B) {
+        	} else if (networkType == TelephonyManager.NETWORK_TYPE_UMTS || networkType == TelephonyManager.NETWORK_TYPE_HSPA || networkType == NETWORK_TYPE_EHRPD || networkType == TelephonyManager.NETWORK_TYPE_EVDO_0 || networkType == TelephonyManager.NETWORK_TYPE_EVDO_A || networkType == NETWORK_TYPE_EVDO_B) {
         		db.setDatapoint(AppContext.NETWORK, 30);
         		LastValue.setNetworkState(30);
         	} else if (networkType == TelephonyManager.NETWORK_TYPE_HSDPA || networkType == TelephonyManager.NETWORK_TYPE_HSUPA || networkType == NETWORK_TYPE_HSPAP) {

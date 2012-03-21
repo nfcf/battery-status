@@ -3,6 +3,7 @@ package nfcf.BatteryStatus.Classes;
 import java.io.IOException;
 import java.util.HashMap;
 
+import nfcf.BatteryStatus.Utils.DataBaseHelper;
 import nfcf.BatteryStatus.Utils.StringUtils;
 
 import android.content.ContentValues;
@@ -13,8 +14,11 @@ import android.util.Log;
 
 public class DAL extends DataBaseHelper {
 
+	private static final String DB_NAME = "BatteryStatus.s3db";
+	private static final String DB_VERSION = "1.3.0";
+	
 	public DAL(Context context) {
-		super(context);
+		super(context, DB_NAME, DB_VERSION);
 
 		try {
 

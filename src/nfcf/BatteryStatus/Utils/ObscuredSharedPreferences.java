@@ -69,10 +69,10 @@ public class ObscuredSharedPreferences implements SharedPreferences {
             return this;
         }
 
-        @Override
-        public void apply() {
-            delegate.apply();
-        }
+//        @Override
+//        public void apply() {
+//            delegate.apply();
+//        }
 
         @Override
         public Editor clear() {
