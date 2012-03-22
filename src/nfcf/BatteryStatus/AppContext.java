@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 //import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-@ReportsCrashes(formKey = "dFhXV1Mwa3A0NERzVDdqWERTSHlhbWc6MQ",
+@ReportsCrashes(formKey = "dExtalhDVmtCY3VWc0hWZU53NTJMMGc6MQ",
 mode = ReportingInteractionMode.TOAST,
 forceCloseDialogAfterToast = false,
 resToastText = R.string.crashText) 

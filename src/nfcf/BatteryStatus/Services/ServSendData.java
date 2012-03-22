@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.R;
+import nfcf.BatteryStatus.Activities.ActMain;
 import nfcf.BatteryStatus.Classes.DAL;
 import nfcf.BatteryStatus.Classes.PachubeAPI;
 import nfcf.BatteryStatus.Classes.Settings;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 
 public class ServSendData extends Service {
@@ -126,8 +128,10 @@ public class ServSendData extends Service {
 	public static String sendDataPoints() {
 		Boolean success = true;
 		Boolean hasNewDatapoints = false;
+		ActMain actMain = ActMain.getInstance();
 
 		if (PhoneUtils.isOnline(AppContext.getContext())) {
+            
 			db = AppContext.getDB();
 			db.openDataBase();
 
@@ -138,12 +142,20 @@ public class ServSendData extends Service {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, null);
 			}
+			
+			Message msg1 = new Message();
+			msg1.what = 10;
+            if (actMain != null) actMain.guiHandler.sendMessage(msg1);
 
 			mapArray = db != null ? db.getDatapoints(AppContext.PLUGGED) : null;
 			if (mapArray != null) {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, null);
 			}
+			
+			Message msg2 = new Message();
+			msg2.what = 20;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg2);
 
 			mapArray = db != null ? db.getDatapoints(AppContext.TEMPERATURE)
 					: null;
@@ -151,6 +163,10 @@ public class ServSendData extends Service {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, 10.0);
 			}
+			
+			Message msg3 = new Message();
+			msg3.what = 30;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg3);
 
 			mapArray = db != null ? db.getDatapoints(AppContext.VOLTAGE) : null;
 			if (mapArray != null) {
@@ -158,23 +174,39 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, 1000.0);
 			}
 
+			Message msg4 = new Message();
+			msg4.what = 40;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg4);
+            
 			mapArray = db != null ? db.getDatapoints(AppContext.SCREEN) : null;
 			if (mapArray != null) {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, 10.0);
 			}
+			
+			Message msg5 = new Message();
+			msg5.what = 50;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg5);
 
 			mapArray = db != null ? db.getDatapoints(AppContext.WIFI) : null;
 			if (mapArray != null) {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, null);
 			}
+			
+			Message msg6 = new Message();
+			msg6.what = 60;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg6);
 
 			mapArray = db != null ? db.getDatapoints(AppContext.NETWORK) : null;
 			if (mapArray != null) {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, 10.0);
 			}
+			
+			Message msg7 = new Message();
+			msg7.what = 70;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg7);
 
 			mapArray = db != null ? db.getDatapoints(AppContext.PHONECALL)
 					: null;
@@ -183,18 +215,30 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, null);
 			}
 
+			Message msg8 = new Message();
+			msg8.what = 80;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg8);
+            
 			mapArray = db != null ? db.getDatapoints(AppContext.BLUETOOTH)
 					: null;
 			if (mapArray != null) {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, null);
 			}
+			
+			Message msg9 = new Message();
+			msg9.what = 90;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg9);
 
 			mapArray = db != null ? db.getDatapoints(AppContext.RXTX) : null;
 			if (mapArray != null) {
 				hasNewDatapoints = true;
 				success = sendSpecificDataPoints(mapArray, 1000.0);
 			}
+			
+			Message msg10 = new Message();
+			msg10.what = 100;
+			if (actMain != null) actMain.guiHandler.sendMessage(msg10);
 
 			if (hasNewDatapoints) {
 				if (success) {

@@ -1,14 +1,12 @@
 package nfcf.BatteryStatus.Activities;
 
 import nfcf.BatteryStatus.AppContext;
+import nfcf.BatteryStatus.R;
 import nfcf.BatteryStatus.Classes.PachubeAPI;
 import nfcf.BatteryStatus.Classes.Settings;
 import nfcf.BatteryStatus.Services.ServSendData;
 import nfcf.BatteryStatus.Utils.PhoneUtils;
 import nfcf.BatteryStatus.Utils.StringUtils;
-
-import nfcf.BatteryStatus.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -35,6 +33,8 @@ public class ActMain extends Activity {
 	
 	private ImageView ivBattery = null;
 	private static ActMain instance = null;
+	
+	private ProgressDialog progressDialog;
 
 
     /** Called when the activity is first created. */
@@ -112,12 +112,16 @@ public class ActMain extends Activity {
     	//AppContext.tracker.trackEvent("Button Pressed", "Force Sync", null, 0);
     	
     	if (Settings.getServiceStarted()) {
-    		final ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.pleaseWait), true);
+    		progressDialog = new ProgressDialog(this);
+    		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setTitle(R.string.pleaseWait);
+            progressDialog.setProgress(0);
+    		progressDialog.show();
         	
     		Thread t = new Thread(new Runnable(){
     			public void run() {
     				String msg = ServSendData.sendDataPoints();
-    				dialog.dismiss();
+    				progressDialog.dismiss();
     				
     				Intent i = new Intent();
             		i.setAction(AppContext.FORCE_SYNC_COMPLETED);
@@ -175,7 +179,7 @@ public class ActMain extends Activity {
         }
     }
     
-    final Handler guiHandler = new Handler(){
+    public final Handler guiHandler = new Handler(){
     	/** Gets called on every message that is received */
     	// @Override
     	public void handleMessage(Message msg) {
@@ -192,6 +196,7 @@ public class ActMain extends Activity {
     			Toast.makeText(ctx, ctx.getString(R.string.msgWrongKeyAndFeed), Toast.LENGTH_LONG).show();
     			break;
     		default:
+    			if (progressDialog != null) progressDialog.setProgress(msg.what);
     			break;
     		}
     		super.handleMessage(msg);
