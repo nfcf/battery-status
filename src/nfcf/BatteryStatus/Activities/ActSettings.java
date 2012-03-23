@@ -1,11 +1,8 @@
 package nfcf.BatteryStatus.Activities;
 
+import nfcf.BatteryStatus.R;
 import nfcf.BatteryStatus.Classes.Settings;
 import nfcf.BatteryStatus.Utils.StringUtils;
-
-import nfcf.BatteryStatus.AppContext;
-import nfcf.BatteryStatus.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -81,15 +78,15 @@ public class ActSettings extends Activity {
     @Override
     public void onResume() {
     	super.onResume();
-    	AppContext.tracker.trackPageView("Settings Screen");
+    	//AppContext.tracker.trackPageView("Settings Screen");
     }
     
     public void btnSaveSettings_onClick(View v)
     {
     	if (isActivityValid()) {
-    		AppContext.tracker.trackEvent("Button Pressed", "Save Settings", null, 0);
-    		AppContext.tracker.trackEvent("Settings", "Collect Data Interval", null, Settings.getBatteryInterval());
-			AppContext.tracker.trackEvent("Settings", "Send Data Interval", null, Settings.getPachubeInterval());
+    		//AppContext.tracker.trackEvent("Button Pressed", "Save Settings", null, 0);
+    		//AppContext.tracker.trackEvent("Settings", "Collect Data Interval", null, Settings.getBatteryInterval());
+			//AppContext.tracker.trackEvent("Settings", "Send Data Interval", null, Settings.getPachubeInterval());
     		
     		Settings.setUser(etUser.getText().toString());
     		Settings.setPass(etPass.getText().toString());
@@ -120,7 +117,7 @@ public class ActSettings extends Activity {
     
     public void btnCancelSettings_onClick(View v)
     {
-    	AppContext.tracker.trackEvent("Button Pressed", "Cancel Settings", null, 0);
+    	//AppContext.tracker.trackEvent("Button Pressed", "Cancel Settings", null, 0);
     	setResult(RESULT_CANCELED);
     	finish();
     }   

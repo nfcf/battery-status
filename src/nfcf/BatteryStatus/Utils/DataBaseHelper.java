@@ -1,4 +1,4 @@
-package nfcf.BatteryStatus.Classes;
+package nfcf.BatteryStatus.Utils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,22 +20,23 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
 	//The Android's default system path of your application database.
 	private static String DB_PATH = "/data/data/" + AppContext.getContext().getPackageName() + "/databases/";
-	private static String DB_NAME = "BatteryStatus.s3db";
-	private static String DB_VERSION = "1.3.0";
-
-	protected SQLiteDatabase db; 
-
-	private final Context myContext;
+	
+	private String dbName = null;
+	private String dbVersion = null;
+	private Context ctx = null;
+	protected SQLiteDatabase db = null; 
 
 	/**
 	 * Constructor
 	 * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
 	 * @param context
 	 */
-	public DataBaseHelper(Context context) {
-
-		super(context, DB_NAME, null, 1);
-		this.myContext = context;
+	public DataBaseHelper(Context context, String dbName, String dbVersion) {
+		super(context, dbName, null, 1);
+		
+		this.dbName = dbName;
+		this.dbVersion = dbVersion;
+		this.ctx = context;
 	}	
 
 	/**
@@ -59,7 +60,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
 				//Write current version to database
 				ContentValues values = new ContentValues(); 
-				values.put("db_version", DB_VERSION);
+				values.put("db_version", dbVersion);
 
 				openDataBase();
 				db.update("android_metadata", values, null, null);
@@ -86,10 +87,10 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 		Boolean dbIsValid = false; 
 
 		try {
-			db = SQLiteDatabase.openDatabase( DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
+			db = SQLiteDatabase.openDatabase( DB_PATH + dbName, null, SQLiteDatabase.OPEN_READONLY);
 			
 			String version = getDBVersion();
-			if (version != null && version.equals(DB_VERSION)) dbIsValid = true;
+			if (version != null && version.equals(dbVersion)) dbIsValid = true;
 		}catch(SQLiteException e){
 
 			//database doesn't exist yet.
@@ -109,10 +110,10 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 	private void copyDataBase() throws IOException{
 
 		//Open your local db as the input stream
-		InputStream inStream = myContext.getAssets().open(DB_NAME);
+		InputStream inStream = ctx.getAssets().open(dbName);
 
 		// Path to the just created empty db
-		String sFileName = DB_PATH + DB_NAME;
+		String sFileName = DB_PATH + dbName;
 
 		//Open the empty db as the output stream
 		OutputStream outStream = new FileOutputStream(sFileName);
@@ -135,7 +136,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
 		if (db == null || !db.isOpen()){
 			//Open the database
-			String dbPath = DB_PATH + DB_NAME;
+			String dbPath = DB_PATH + dbName;
 			db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 		}
 
@@ -179,6 +180,12 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 		}
 
 		return returnValue;
+	}
+	
+	public void vacuumDataBase() {
+		db.execSQL("VACUUM");
+		close();
+		openDataBase();
 	}
 
 	public int getIntValue(String table, String field, String selection, String[] selectionArgs) {

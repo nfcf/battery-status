@@ -16,8 +16,6 @@ import android.util.Log;
 
 public class ServBattery extends Service {
 	
-	DAL db = null;
-	
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -33,9 +31,7 @@ public class ServBattery extends Service {
 		super.onDestroy();
 		Log.d("Battery Service", "Stopping");
 		
-		//if (Settings.getServiceStarted()) {
-			unregisterReceiver(batteryReceiver);
-		//}
+		unregisterReceiver(batteryReceiver);
 	}
 	
 	@Override
@@ -54,19 +50,13 @@ public class ServBattery extends Service {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
-			int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-			int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0);
-			int voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0) ;
-			int temperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) ; 
-
-			db = AppContext.getDB();
+			DAL db = AppContext.getDB();
 			db.openDataBase();
 			
-			db.setDatapoint(AppContext.LEVEL, level);
-			db.setDatapoint(AppContext.PLUGGED, plugged);
-			db.setDatapoint(AppContext.VOLTAGE, voltage);
-			db.setDatapoint(AppContext.TEMPERATURE, temperature);
+			db.setDatapoint(AppContext.LEVEL, intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0));
+			db.setDatapoint(AppContext.PLUGGED, intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0));
+			db.setDatapoint(AppContext.VOLTAGE, intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0));
+			db.setDatapoint(AppContext.TEMPERATURE, intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0));
 			
 			
 			//Update Screen stats
@@ -85,7 +75,7 @@ public class ServBattery extends Service {
 			db.setDatapoint(AppContext.BLUETOOTH, LastValue.getBluetoothState());
 			
 			//Update RxTx Traffic stats
-			long RxTxBytes = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalRxBytes();
+			long RxTxBytes = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
 			long valueToRecord = RxTxBytes - LastValue.getRxTxBytes() >= 0 ? RxTxBytes - LastValue.getRxTxBytes() : RxTxBytes;
 			db.setDatapoint(AppContext.RXTX, valueToRecord);
 			LastValue.setRxTxBytes(RxTxBytes);

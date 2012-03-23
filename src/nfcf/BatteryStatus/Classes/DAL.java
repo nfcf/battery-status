@@ -3,6 +3,7 @@ package nfcf.BatteryStatus.Classes;
 import java.io.IOException;
 import java.util.HashMap;
 
+import nfcf.BatteryStatus.Utils.DataBaseHelper;
 import nfcf.BatteryStatus.Utils.StringUtils;
 
 import android.content.ContentValues;
@@ -13,8 +14,11 @@ import android.util.Log;
 
 public class DAL extends DataBaseHelper {
 
+	private static final String DB_NAME = "BatteryStatus.s3db";
+	private static final String DB_VERSION = "1.3.0";
+	
 	public DAL(Context context) {
-		super(context);
+		super(context, DB_NAME, DB_VERSION);
 
 		try {
 
@@ -54,11 +58,11 @@ public class DAL extends DataBaseHelper {
 //        }
 //	}
 
-	public void deleteDatapoints(String type, String dateLimit) {
-		if (StringUtils.isNullOrBlank(dateLimit)){
+	public void deleteDatapoints(String type, String idLimit) {
+		if (StringUtils.isNullOrBlank(idLimit)){
 			db.delete("datapoints", "type=?", new String[]{type});
 		} else {
-			db.delete("datapoints", "type=? AND occurred_at<=?", new String[]{type, dateLimit});
+			db.delete("datapoints", "type=? AND _id<=?", new String[]{type, idLimit});
 		}
 		
 	}
@@ -86,7 +90,7 @@ public class DAL extends DataBaseHelper {
 		Cursor cur = null;
 
 		try {
-			cur = db.query("datapoints", new String[]{"_id","type","value","occurred_at"}, "type=?", new String[]{type}, null, null, null);
+			cur = db.query("datapoints", new String[]{"_id","type","value","occurred_at"}, "type=?", new String[]{type}, null, null, "_id ASC");
 			if (cur.getCount() > 0)
 			{
 				map = new HashMap[cur.getCount()];
