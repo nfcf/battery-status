@@ -105,7 +105,7 @@ public class ServSendData extends Service {
 				}
 			} catch (Exception e) {
 				Log.e("sendSpecificDataPoints", e.toString());
-				if (type != null) ErrorReporter.getInstance().putCustomData("datastream", type); 
+				if (type != null) ErrorReporter.getInstance().putCustomData("datastream", type);  
 				ErrorReporter.getInstance().handleSilentException(e);
 			}
 
