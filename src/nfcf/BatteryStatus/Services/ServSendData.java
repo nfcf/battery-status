@@ -75,7 +75,7 @@ public class ServSendData extends Service {
 			HashMap<String, Object>[] mapArray, Double divider) {
 		Boolean success = true;
 		String type = null;
-		String dateLimit = null;
+		String idLimit = null;
 
 		if (mapArray != null && mapArray.length > 0) {
 			JSONObject jsonMainObject = new JSONObject();
@@ -98,23 +98,20 @@ public class ServSendData extends Service {
 					jsonArray.put(jsonDatapoints);
 
 					i++;
-					if (i == 250) {
-						dateLimit = map.get("occurred_at").toString();
+					if (i == 300) {
+						idLimit =  map.get("id").toString();
 						break;
 					}
 				}
 			} catch (Exception e) {
 				Log.e("sendSpecificDataPoints", e.toString());
-				if (type != null)
-					ErrorReporter.getInstance().putCustomData("datastream",
-							type);
+				if (type != null) ErrorReporter.getInstance().putCustomData("datastream", type);
 				ErrorReporter.getInstance().handleSilentException(e);
 			}
 
 			if (jsonArray.length() > 0) {
-				if (PachubeAPI.sendDataPoints(Settings.getFeed(), type,
-						Settings.getKey(), jsonMainObject.toString())) {
-					db.deleteDatapoints(type, dateLimit);
+				if (PachubeAPI.sendDataPoints(Settings.getFeed(), type, Settings.getKey(), jsonMainObject.toString())) {
+					db.deleteDatapoints(type, idLimit);
 					Log.d("sendDataPoints", type + " datapoints sent!");
 				} else {
 					success = false;
@@ -143,9 +140,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, null);
 			}
 			
-			Message msg1 = new Message();
-			msg1.what = 10;
-            if (actMain != null) actMain.guiHandler.sendMessage(msg1);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 10;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			mapArray = db != null ? db.getDatapoints(AppContext.PLUGGED) : null;
 			if (mapArray != null) {
@@ -153,9 +152,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, null);
 			}
 			
-			Message msg2 = new Message();
-			msg2.what = 20;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg2);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 20;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			mapArray = db != null ? db.getDatapoints(AppContext.TEMPERATURE)
 					: null;
@@ -164,9 +165,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, 10.0);
 			}
 			
-			Message msg3 = new Message();
-			msg3.what = 30;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg3);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 30;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			mapArray = db != null ? db.getDatapoints(AppContext.VOLTAGE) : null;
 			if (mapArray != null) {
@@ -174,9 +177,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, 1000.0);
 			}
 
-			Message msg4 = new Message();
-			msg4.what = 40;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg4);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 40;
+				actMain.guiHandler.sendMessage(msg);
+			}
             
 			mapArray = db != null ? db.getDatapoints(AppContext.SCREEN) : null;
 			if (mapArray != null) {
@@ -184,9 +189,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, 10.0);
 			}
 			
-			Message msg5 = new Message();
-			msg5.what = 50;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg5);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 50;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			mapArray = db != null ? db.getDatapoints(AppContext.WIFI) : null;
 			if (mapArray != null) {
@@ -194,9 +201,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, null);
 			}
 			
-			Message msg6 = new Message();
-			msg6.what = 60;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg6);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 60;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			mapArray = db != null ? db.getDatapoints(AppContext.NETWORK) : null;
 			if (mapArray != null) {
@@ -204,9 +213,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, 10.0);
 			}
 			
-			Message msg7 = new Message();
-			msg7.what = 70;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg7);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 70;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			mapArray = db != null ? db.getDatapoints(AppContext.PHONECALL)
 					: null;
@@ -215,9 +226,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, null);
 			}
 
-			Message msg8 = new Message();
-			msg8.what = 80;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg8);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 80;
+				actMain.guiHandler.sendMessage(msg);
+			}
             
 			mapArray = db != null ? db.getDatapoints(AppContext.BLUETOOTH)
 					: null;
@@ -226,9 +239,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, null);
 			}
 			
-			Message msg9 = new Message();
-			msg9.what = 90;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg9);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 90;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			mapArray = db != null ? db.getDatapoints(AppContext.RXTX) : null;
 			if (mapArray != null) {
@@ -236,9 +251,11 @@ public class ServSendData extends Service {
 				success = sendSpecificDataPoints(mapArray, 1000.0);
 			}
 			
-			Message msg10 = new Message();
-			msg10.what = 100;
-			if (actMain != null) actMain.guiHandler.sendMessage(msg10);
+			if (actMain != null) {
+				Message msg = new Message();
+				msg.what = 100;
+				actMain.guiHandler.sendMessage(msg);
+			}
 
 			if (hasNewDatapoints) {
 				if (success) {

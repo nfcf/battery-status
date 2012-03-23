@@ -121,7 +121,7 @@ public class ActMain extends Activity {
     		Thread t = new Thread(new Runnable(){
     			public void run() {
     				String msg = ServSendData.sendDataPoints();
-    				progressDialog.dismiss();
+    				progressDialog.dismiss();  
     				
     				Intent i = new Intent();
             		i.setAction(AppContext.FORCE_SYNC_COMPLETED);

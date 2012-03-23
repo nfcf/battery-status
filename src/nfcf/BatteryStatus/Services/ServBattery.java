@@ -31,9 +31,7 @@ public class ServBattery extends Service {
 		super.onDestroy();
 		Log.d("Battery Service", "Stopping");
 		
-		//if (Settings.getServiceStarted()) {
-			unregisterReceiver(batteryReceiver);
-		//}
+		unregisterReceiver(batteryReceiver);
 	}
 	
 	@Override

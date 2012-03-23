@@ -58,11 +58,11 @@ public class DAL extends DataBaseHelper {
 //        }
 //	}
 
-	public void deleteDatapoints(String type, String dateLimit) {
-		if (StringUtils.isNullOrBlank(dateLimit)){
+	public void deleteDatapoints(String type, String idLimit) {
+		if (StringUtils.isNullOrBlank(idLimit)){
 			db.delete("datapoints", "type=?", new String[]{type});
 		} else {
-			db.delete("datapoints", "type=? AND occurred_at<=?", new String[]{type, dateLimit});
+			db.delete("datapoints", "type=? AND _id<=?", new String[]{type, idLimit});
 		}
 		
 	}
@@ -90,7 +90,7 @@ public class DAL extends DataBaseHelper {
 		Cursor cur = null;
 
 		try {
-			cur = db.query("datapoints", new String[]{"_id","type","value","occurred_at"}, "type=?", new String[]{type}, null, null, null);
+			cur = db.query("datapoints", new String[]{"_id","type","value","occurred_at"}, "type=?", new String[]{type}, null, null, "_id ASC");
 			if (cur.getCount() > 0)
 			{
 				map = new HashMap[cur.getCount()];
