@@ -15,10 +15,10 @@ import android.util.Log;
 public class DAL extends DataBaseHelper {
 
 	private static final String DB_NAME = "BatteryStatus.s3db";
-	private static final String DB_VERSION = "1.3.0";
+	private static final int DB_VERSION = 4;
 	
 	public DAL(Context context) {
-		super(context, DB_NAME, DB_VERSION);
+		super(context, DB_NAME, DB_VERSION); 
 
 		try {
 
