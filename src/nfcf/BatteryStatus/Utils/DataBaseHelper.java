@@ -14,27 +14,23 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+public abstract class DataBaseHelper extends SQLiteOpenHelper {
 
 	// The Android's default system path of your application database.
 	private static String DB_PATH = "/data/data/" + AppContext.getContext().getPackageName() + "/databases/";
 
 	private String dbName = null;
-	private int dbVersion = 0;
 	private Context ctx = null;
 	protected SQLiteDatabase db = null;
 
 	/**
 	 * Constructor Takes and keeps a reference of the passed context in order to
 	 * access to the application assets and resources.
-	 * 
-	 * @param context
 	 */
 	public DataBaseHelper(Context context, String dbName, int dbVersion) {
 		super(context, dbName, null, dbVersion);
 
 		this.dbName = dbName;
-		this.dbVersion = dbVersion;
 		this.ctx = context;
 	}
 
@@ -46,7 +42,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 		boolean dbExists = checkDataBase();
 		
-		this.getReadableDatabase();
+		openDataBase();	// this is needed to create an empty DB if it doesn't exist. If it does, it's used to check the DB version
+		close();
 		
 		if (dbExists) {
 			// do nothing - database already exist. onUpgrade will take care of the version differences if there are any.
@@ -55,14 +52,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			try {
 				
 				copyDataBase();
-				//this.getWritableDatabase().setVersion(dbVersion);
 
 			} catch (Exception ex) {
 				Log.e("createDataBase", ex.toString());
 			}
 		}
 		
-		openDataBase();
+		openDataBase();	//needed to make sure the onUpgrade works everytime (i.e.: if the version changes twice between executions and no openDatabase is called in between)
 
 	}
 
@@ -120,12 +116,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	}
 
 	public void openDataBase() throws SQLException {
-
 		if (db == null || !db.isOpen()) {
 			db = this.getWritableDatabase();
-			Log.w("TESTE",""+db.getVersion());
 		}
-
 	}
 	
 	public void vacuumDataBase() {
@@ -140,11 +133,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	}
 
+	/// This method must be overrided in the child class. By default it just deletes the existing DB and copies a new one from the assets folder
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.i("onUpgrade", "Upgrading database from version " + oldVersion + " to " + newVersion + "...");
 		
-		//I haven't used this yet. However, if this method gets called, delete the existing database and copy the one from the assets
 		try {
 			ctx.deleteDatabase(dbName);
 			copyDataBase();
