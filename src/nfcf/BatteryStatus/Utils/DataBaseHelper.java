@@ -122,9 +122,11 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public void vacuumDataBase() {
-		db.execSQL("VACUUM");
-		close();
-		openDataBase();
+		if (db == null || !db.isOpen()) {
+			db.execSQL("VACUUM");
+			close();
+			openDataBase();
+		}
 	}
 	
 

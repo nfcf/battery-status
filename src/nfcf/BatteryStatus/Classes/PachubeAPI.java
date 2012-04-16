@@ -247,7 +247,9 @@ public class PachubeAPI
     				returnValue.setValue(jo.getJSONObject("key").getString("api_key"));
     			}
 
-    		} 		
+    		} else {
+    			ErrorReporter.getInstance().handleSilentException(new Exception("Check Key, Status Code:" + rp.getStatusLine().getStatusCode()));
+    		}
 
     	} catch (IOException e) {
     		Log.e("checkKey",e.toString());
@@ -287,7 +289,9 @@ public class PachubeAPI
     					returnValue.setValue(ja.getJSONObject(i).getString("api_key"));
     				}
     			}
-    		} 		
+    		} else {
+    			ErrorReporter.getInstance().handleSilentException(new Exception("Find Key, Status Code:" + rp.getStatusLine().getStatusCode()));
+    		}
 
     	} catch (IOException e) {
     		Log.e("findKey",e.toString());
@@ -347,7 +351,9 @@ public class PachubeAPI
 				String key = rp.getHeaders("Location")[0].getValue();
 				key = key.substring(key.lastIndexOf("/") + 1);
 				returnValue.setValue(key);
-			} 		
+			} else {
+				ErrorReporter.getInstance().handleSilentException(new Exception("Create Key, Status Code:" + rp.getStatusLine().getStatusCode()));
+			}
 
 		} catch (IOException e) {
     		Log.e("createKey",e.toString());
@@ -364,6 +370,8 @@ public class PachubeAPI
 	public static PachubeResponse checkFeed(String user, String pass, String feed, Boolean privateAccess) {
 		PachubeResponse returnValue = null; 
 
+		ErrorReporter.getInstance().handleSilentException(new Exception(user + "-" + pass + "-" + feed + "-" + privateAccess));
+		
 		JSONObject jsonCheckFeedObject = new JSONObject();
 
 		try {
@@ -384,14 +392,15 @@ public class PachubeAPI
 			se.setContentType("application/json");
 			put.setEntity(se);
 			HttpResponse rp = hc.execute(put);
-
+			
 			returnValue = new PachubeResponse();
 			returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
 			Log.d("Check Feed", "Status Code: " + rp.getStatusLine().getStatusCode());
 			if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				returnValue.setValue(feed);
-			} 		else {
+			} else {
 				returnValue.setValue(null);
+				ErrorReporter.getInstance().handleSilentException(new Exception("Check Feed, Status Code:" + rp.getStatusLine().getStatusCode()));
 			}
 
 		} catch (IOException e) {
@@ -433,7 +442,9 @@ public class PachubeAPI
     					returnValue.setValue(feed);
     				}
     			}	
-    		} 	
+    		} 	else {
+    			ErrorReporter.getInstance().handleSilentException(new Exception("Find Feed, Status Code:" + rp.getStatusLine().getStatusCode()));
+    		}
 
     	} catch (IOException e) {
     		Log.e("findFeed",e.toString());
@@ -507,7 +518,9 @@ public class PachubeAPI
 				feed = feed.substring(feed.lastIndexOf("/") + 1);
 				if (feed.endsWith(".json")) feed = feed.substring(0,feed.indexOf(".json"));
 				returnValue.setValue(feed);
-			} 
+			} else {
+				ErrorReporter.getInstance().handleSilentException(new Exception("Create Feed, Status Code:" + rp.getStatusLine().getStatusCode()));
+			}
 
 		} catch (IOException e) {
     		Log.e("createFeed",e.toString());
