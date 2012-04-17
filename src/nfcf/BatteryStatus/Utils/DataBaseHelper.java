@@ -18,7 +18,7 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 
 	// The Android's default system path of your application database.
 	private static String DB_PATH = "/data/data/" + AppContext.getContext().getPackageName() + "/databases/";
-
+ 
 	private String dbName = null;
 	private Context ctx = null;
 	protected SQLiteDatabase db = null;
@@ -122,9 +122,11 @@ public abstract class DataBaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public void vacuumDataBase() {
-		db.execSQL("VACUUM");
-		close();
-		openDataBase();
+		if (db == null || !db.isOpen()) {
+			db.execSQL("VACUUM");
+			close();
+			openDataBase();
+		}
 	}
 	
 
