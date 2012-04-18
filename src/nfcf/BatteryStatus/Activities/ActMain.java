@@ -243,8 +243,8 @@ protected void launchServices() {
 
         		PachubeAPI.PachubeResponse feed = null;
         		if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getFeed())) {
-        			//Check if the key in settings exist and has valid permissions (private_access)
-        			feed = PachubeAPI.checkFeed(Settings.getUser(), Settings.getPass(), Settings.getFeed(), Settings.getPrivate());
+        			//Check if the feed in settings exist and has valid permissions (private_access)
+        			feed = PachubeAPI.checkFeed(Settings.getKey(), Settings.getFeed(), Settings.getPrivate());
         			if (feed != null) {
         				//Overwrites the feed value on the Settings. If the feed exists, it stays the same, if it isn't then erase it and create a new one.
         				Settings.setFeed(feed.getValue());

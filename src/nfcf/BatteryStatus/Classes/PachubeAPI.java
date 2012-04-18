@@ -243,7 +243,8 @@ public class PachubeAPI
     		if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
     			JSONObject jo = JSONUtils.getJSONfromEntity(rp.getEntity());
-    			if (jo.getJSONObject("key").getBoolean("private_access") == privateAccess){
+    			//if the key has private access than its allways good, otherwise only works if the feed is not private
+    			if (jo.getJSONObject("key").getBoolean("private_access") == true || jo.getJSONObject("key").getBoolean("private_access") == privateAccess){
     				returnValue.setValue(jo.getJSONObject("key").getString("api_key"));
     			}
 
@@ -322,7 +323,8 @@ public class PachubeAPI
 			jsonPermissionsArray.put(jsonPermissionsObject);
 			jsonPermissionsObject.put("access_methods",jsonAccessMethodsArray);
 			jsonAccessMethodsArray.put("post");
-			jsonAccessMethodsArray.put("get");	
+			jsonAccessMethodsArray.put("get");
+			jsonAccessMethodsArray.put("put");
 
 		} catch (JSONException e) {
 			ErrorReporter.getInstance().handleException(e);
@@ -367,10 +369,8 @@ public class PachubeAPI
 	}
 	
 	//Check if the desired feed exists and if it has the desired access status
-	public static PachubeResponse checkFeed(String user, String pass, String feed, Boolean privateAccess) {
+	public static PachubeResponse checkFeed(String key, String feed, Boolean privateAccess) {
 		PachubeResponse returnValue = null; 
-
-		ErrorReporter.getInstance().handleSilentException(new Exception(user + "-" + pass + "-" + feed + "-" + privateAccess));
 		
 		JSONObject jsonCheckFeedObject = new JSONObject();
 
@@ -384,8 +384,8 @@ public class PachubeAPI
 		try {
 			HttpClient hc = new DefaultHttpClient(getHTTPParams());
 			HttpPut put= new HttpPut(PACHUBE_API_URL + "feeds/" + feed);
-			put.addHeader("Authorization", "Basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
-			//put.addHeader("X-PachubeApiKey", key);
+			//put.addHeader("Authorization", "Basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
+			put.addHeader("X-PachubeApiKey", key);
 
 			StringEntity se;
 			se = new StringEntity(jsonCheckFeedObject.toString(),HTTP.UTF_8);
@@ -397,6 +397,9 @@ public class PachubeAPI
 			returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
 			Log.d("Check Feed", "Status Code: " + rp.getStatusLine().getStatusCode());
 			if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				returnValue.setValue(feed);
+			} else if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_FORBIDDEN) {
+				//This will happen for keys created prior to version 1.3.3 (no 'put' permission) so, don't update the feed
 				returnValue.setValue(feed);
 			} else {
 				returnValue.setValue(null);
