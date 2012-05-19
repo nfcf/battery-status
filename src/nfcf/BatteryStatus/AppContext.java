@@ -43,7 +43,7 @@ public class AppContext extends Application
 	
 	public static final String LEVEL = "level";
 	public static final String TEMPERATURE = "temperature";
-	public static final String VOLTAGE = "voltage";
+	public static final String VOLTAGE = "voltage"; 
 	public static final String PLUGGED = "plugged";
 	public static final String SCREEN = "screen";
 	public static final String WIFI = "wifi";
@@ -60,7 +60,7 @@ public class AppContext extends Application
 	public static final String SETTINGS_KEY = "key";
 	public static final String SETTINGS_FEED = "feed";
 	public static final String SETTINGS_BATTERY_INTERVAL = "battery_interval";
-	public static final String SETTINGS_PACHUBE_INTERVAL = "pachube_interval";
+	public static final String SETTINGS_COSM_INTERVAL = "pachube_interval";
 	public static final String SETTINGS_PRIVATE = "private";
 	public static final String SETTINGS_SERVICES_STARTED = "services_started";
 	
@@ -115,8 +115,8 @@ public class AppContext extends Application
     		AlarmManager alarmManager = (AlarmManager)ctx.getSystemService(ALARM_SERVICE);
     		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, Settings.getBatteryInterval() * 60 * 1000, AppContext.pendingBatteryIntent);
     		
-    		if (Settings.getPachubeInterval() > 0) {
-    			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, Settings.getPachubeInterval() * 60 * 1000, AppContext.pendingSendDataIntent);
+    		if (Settings.getCosmInterval() > 0) {
+    			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, Settings.getCosmInterval() * 60 * 1000, AppContext.pendingSendDataIntent);
     		} else {
     			ctx.startService(new Intent(AppContext.getContext(), ServSendData.class));	
     		}
@@ -153,7 +153,7 @@ public class AppContext extends Application
     	AlarmManager alarmManager = (AlarmManager)ctx.getSystemService(ALARM_SERVICE);
 		alarmManager.cancel(AppContext.pendingBatteryIntent);
 		
-		if (Settings.getPachubeInterval() > 0) {
+		if (Settings.getCosmInterval() > 0) {
 			alarmManager.cancel(AppContext.pendingSendDataIntent);
 		} else {
 			ctx.stopService(new Intent(ctx, ServSendData.class));

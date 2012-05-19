@@ -91,7 +91,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Spinner
-            android:id="@+id/spPachubeInterval"
+            android:id="@+id/spCosmInterval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

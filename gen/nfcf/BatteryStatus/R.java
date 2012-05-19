@@ -45,7 +45,7 @@ public final class R {
         public static final int rlMain=0x7f050000;
         public static final int scrollView1=0x7f050008;
         public static final int spBatteryInterval=0x7f050013;
-        public static final int spPachubeInterval=0x7f050015;
+        public static final int spCosmInterval=0x7f050015;
         public static final int textView1=0x7f05000a;
         public static final int textView2=0x7f05000c;
         public static final int textView3=0x7f05000e;

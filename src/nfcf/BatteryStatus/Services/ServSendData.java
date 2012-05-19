@@ -8,7 +8,7 @@ import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.R;
 import nfcf.BatteryStatus.Activities.ActMain;
 import nfcf.BatteryStatus.Classes.DAL;
-import nfcf.BatteryStatus.Classes.PachubeAPI;
+import nfcf.BatteryStatus.Classes.CosmAPI;
 import nfcf.BatteryStatus.Classes.Settings;
 import nfcf.BatteryStatus.Utils.PhoneUtils;
 
@@ -25,7 +25,7 @@ import android.util.Log;
 public class ServSendData extends Service {
 
 	static DAL db = null;
-	Timer timerPachube = null;
+	Timer timerCosm = null;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -37,9 +37,9 @@ public class ServSendData extends Service {
 		super.onCreate();
 		Log.d("Send Data Service", "Starting");
 
-		if (Settings.getPachubeInterval() == 0) {
-			timerPachube = new Timer();
-			timerPachube.schedule(new TimerTask() {
+		if (Settings.getCosmInterval() == 0) {
+			timerCosm = new Timer();
+			timerCosm.schedule(new TimerTask() {
 				@Override
 				public void run() {
 					sendDataPoints();
@@ -55,10 +55,10 @@ public class ServSendData extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.d("Send Data Service", "Stopping");
-		if (Settings.getPachubeInterval() == 0) {
-			if (timerPachube != null) {
-				timerPachube.cancel();
-				timerPachube.purge();
+		if (Settings.getCosmInterval() == 0) {
+			if (timerCosm != null) {
+				timerCosm.cancel();
+				timerCosm.purge();
 			}
 		}
 	}
@@ -110,7 +110,7 @@ public class ServSendData extends Service {
 			}
 
 			if (jsonArray.length() > 0) {
-				if (PachubeAPI.sendDataPoints(Settings.getFeed(), type, Settings.getKey(), jsonMainObject.toString())) {
+				if (CosmAPI.sendDataPoints(Settings.getFeed(), type, Settings.getKey(), jsonMainObject.toString())) {
 					db.deleteDatapoints(type, idLimit);
 					Log.d("sendDataPoints", type + " datapoints sent!");
 				} else {

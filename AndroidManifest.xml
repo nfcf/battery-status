@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nfcf.BatteryStatus"
-    android:versionCode="8"
-    android:versionName="1.3.3" > <!-- X.Y.z (X Major changes, Y Minor changes, z bug corrections) -->
-	<!-- onUprade DB improvements-->
-	<!-- Small bug fix (vacuum) -->
-    <!-- better error handling -->
-    <!-- acrescentei uma permissão À API-KEY -->
-
+    android:versionCode="10"
+    android:versionName="1.4.0" > <!-- X.Y.z (X Major changes, Y Minor changes, z bug corrections) -->
+	<!-- Pachube is now Cosm! -->
+	
     <uses-sdk android:minSdkVersion="8" />
 
     <uses-permission android:name="android.permission.INTERNET" />

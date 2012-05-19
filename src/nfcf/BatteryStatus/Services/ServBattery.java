@@ -44,7 +44,7 @@ public class ServBattery extends Service {
 
 		stopSelf();
 	}
-	
+	 
 	
 	private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
 

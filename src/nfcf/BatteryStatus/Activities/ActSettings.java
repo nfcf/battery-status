@@ -23,7 +23,7 @@ public class ActSettings extends Activity {
 	EditText etPass = null;
 	EditText etFeed = null;
 	Spinner spBatteryInterval = null;
-	Spinner spPachubeInterval = null;
+	Spinner spCosmInterval = null;
 	CheckBox chkPrivate = null;
 	
 	/** Called when the activity is first created. */
@@ -42,7 +42,7 @@ public class ActSettings extends Activity {
     	etKey = (EditText) findViewById(R.id.etKey);
     	etFeed = (EditText) findViewById(R.id.etFeed);
     	spBatteryInterval = (Spinner) findViewById(R.id.spBatteryInterval);
-    	spPachubeInterval = (Spinner) findViewById(R.id.spPachubeInterval);
+    	spCosmInterval = (Spinner) findViewById(R.id.spCosmInterval);
     	chkPrivate = (CheckBox) findViewById(R.id.chkPrivate);
     }
 
@@ -59,7 +59,7 @@ public class ActSettings extends Activity {
     	
     	// Array of choices
     	String spBatteryValues[] = {"5","10","15","30"};
-    	String spPachubeValues[] = {"Only when the phone is awake","5","10","15","30","60","120"};
+    	String spCosmValues[] = {"Only when the phone is awake","5","10","15","30","60","120"};
 
     	// Application of the Array to the Spinners
     	ArrayAdapter<String> adapterBattery = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, spBatteryValues);
@@ -67,10 +67,10 @@ public class ActSettings extends Activity {
     	spBatteryInterval.setAdapter(adapterBattery);
     	spBatteryInterval.setSelection(adapterBattery.getPosition(String.valueOf(Settings.getBatteryInterval())));
     	
-    	ArrayAdapter<String> adapterPachube = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, spPachubeValues);
-    	adapterPachube.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
-    	spPachubeInterval.setAdapter(adapterPachube);
-    	spPachubeInterval.setSelection(adapterPachube.getPosition(String.valueOf(Settings.getPachubeInterval())));
+    	ArrayAdapter<String> adapterCosm = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, spCosmValues);
+    	adapterCosm.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
+    	spCosmInterval.setAdapter(adapterCosm);
+    	spCosmInterval.setSelection(adapterCosm.getPosition(String.valueOf(Settings.getCosmInterval())));
     	
     	
     }
@@ -86,7 +86,7 @@ public class ActSettings extends Activity {
     	if (isActivityValid()) {
     		//AppContext.tracker.trackEvent("Button Pressed", "Save Settings", null, 0);
     		//AppContext.tracker.trackEvent("Settings", "Collect Data Interval", null, Settings.getBatteryInterval());
-			//AppContext.tracker.trackEvent("Settings", "Send Data Interval", null, Settings.getPachubeInterval());
+			//AppContext.tracker.trackEvent("Settings", "Send Data Interval", null, Settings.getCosmInterval());
     		
     		Settings.setUser(etUser.getText().toString());
     		Settings.setPass(etPass.getText().toString());
@@ -102,11 +102,11 @@ public class ActSettings extends Activity {
 				}
     		}
     		
-    		if (spPachubeInterval.getSelectedItem() != null) {
+    		if (spCosmInterval.getSelectedItem() != null) {
     			try {
-    				Settings.setPachubeInterval(Integer.parseInt(spPachubeInterval.getSelectedItem().toString()));	
+    				Settings.setCosmInterval(Integer.parseInt(spCosmInterval.getSelectedItem().toString()));	
 				} catch (Exception e) {
-					Settings.setPachubeInterval(0);
+					Settings.setCosmInterval(0);
 				}
     		}
 

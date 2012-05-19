@@ -2,7 +2,7 @@ package nfcf.BatteryStatus.Activities;
 
 import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.R;
-import nfcf.BatteryStatus.Classes.PachubeAPI;
+import nfcf.BatteryStatus.Classes.CosmAPI;
 import nfcf.BatteryStatus.Classes.Settings;
 import nfcf.BatteryStatus.Services.ServSendData;
 import nfcf.BatteryStatus.Utils.PhoneUtils;
@@ -214,10 +214,10 @@ protected void launchServices() {
         	public void run() {
         		AppContext.lastStatusCode = 0;
         		
-        		PachubeAPI.PachubeResponse key = null;
+        		CosmAPI.CosmResponse key = null;
         		if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getKey())) {
         			//Check if the key in settings exist and has valid permissions (private_access)
-        			key = PachubeAPI.checkKey(Settings.getKey(), Settings.getPrivate());
+        			key = CosmAPI.checkKey(Settings.getKey(), Settings.getPrivate());
         			if (key != null) {
         				//Overwrites the key value on the Settings. If the key is valid, it stays the same, if it isn't then erase it and create a new one.
         				Settings.setKey(key.getValue());
@@ -230,10 +230,10 @@ protected void launchServices() {
         		}
         		if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getUser()) && !StringUtils.isNullOrBlank(Settings.getPass()) && StringUtils.isNullOrBlank(Settings.getKey())) {
         			//Check if a key already exists
-        			key = PachubeAPI.findKey(Settings.getUser(), Settings.getPass(), "Battery Status - Pachube key - " + (Settings.getPrivate() ? "Private" : "Public"));
+        			key = CosmAPI.findKey(Settings.getUser(), Settings.getPass(), "Battery Status - Cosm key - " + (Settings.getPrivate() ? "Private" : "Public"));
         			//Create Key if necessary. If key = null, then probably a network error occurred and so there's no need to continue
         			if (key != null && StringUtils.isNullOrBlank(key.getValue())) {
-        				key = PachubeAPI.createKey(Settings.getUser(), Settings.getPass(), "Battery Status - Pachube key - " + (Settings.getPrivate() ? "Private" : "Public"), Settings.getPrivate());        		
+        				key = CosmAPI.createKey(Settings.getUser(), Settings.getPass(), "Battery Status - Cosm key - " + (Settings.getPrivate() ? "Private" : "Public"), Settings.getPrivate());        		
         			} 
         			if (key != null) {
         				AppContext.lastStatusCode = key.getStatusCode();
@@ -241,10 +241,10 @@ protected void launchServices() {
         			}
         		} 
 
-        		PachubeAPI.PachubeResponse feed = null;
+        		CosmAPI.CosmResponse feed = null;
         		if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getFeed())) {
         			//Check if the feed in settings exist and has valid permissions (private_access)
-        			feed = PachubeAPI.checkFeed(Settings.getKey(), Settings.getFeed(), Settings.getPrivate());
+        			feed = CosmAPI.checkFeed(Settings.getKey(), Settings.getFeed(), Settings.getPrivate());
         			if (feed != null) {
         				//Overwrites the feed value on the Settings. If the feed exists, it stays the same, if it isn't then erase it and create a new one.
         				Settings.setFeed(feed.getValue());
@@ -257,10 +257,10 @@ protected void launchServices() {
         		}
         		if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getKey()) && StringUtils.isNullOrBlank(Settings.getFeed())){
         			//Check if a feed already exists. If feed = null, then probably a network error occurred and so there's no need to continue
-        			feed = PachubeAPI.findFeed(Settings.getUser(), Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser());
+        			feed = CosmAPI.findFeed(Settings.getUser(), Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser());
         			//Create Feed if necessary
         			if (feed != null && StringUtils.isNullOrBlank(feed.getValue())) {
-        				feed = PachubeAPI.createFeed(Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser(), "Battery information from my Android device", Settings.getPrivate());        		
+        				feed = CosmAPI.createFeed(Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser(), "Battery information from my Android device", Settings.getPrivate());        		
         			} 
         			if (feed != null) {
         				AppContext.lastStatusCode = feed.getStatusCode();

@@ -47,13 +47,13 @@ public class Settings {
 		AppContext.settings.edit().putInt(AppContext.SETTINGS_BATTERY_INTERVAL,value).commit();
 	}
 
-	public static int getPachubeInterval()
+	public static int getCosmInterval()
 	{
-		return AppContext.settings.getInt(AppContext.SETTINGS_PACHUBE_INTERVAL,30);
+		return AppContext.settings.getInt(AppContext.SETTINGS_COSM_INTERVAL,30);
 	}
 
-	public static void setPachubeInterval(int value){
-		AppContext.settings.edit().putInt(AppContext.SETTINGS_PACHUBE_INTERVAL,value).commit();
+	public static void setCosmInterval(int value){
+		AppContext.settings.edit().putInt(AppContext.SETTINGS_COSM_INTERVAL,value).commit();
 	}
 
 
