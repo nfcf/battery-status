@@ -24,7 +24,6 @@ import android.util.Log;
 
 public class ServSendData extends Service {
 
-	static DAL db = null;
 	Timer timerCosm = null;
 
 	@Override
@@ -111,7 +110,7 @@ public class ServSendData extends Service {
 
 			if (jsonArray.length() > 0) {
 				if (CosmAPI.sendDataPoints(Settings.getFeed(), type, Settings.getKey(), jsonMainObject.toString())) {
-					db.deleteDatapoints(type, idLimit);
+					AppContext.getDB().deleteDatapoints(type, idLimit);
 					Log.d("sendDataPoints", type + " datapoints sent!");
 				} else {
 					success = false;
@@ -129,7 +128,7 @@ public class ServSendData extends Service {
 
 		if (PhoneUtils.isOnline(AppContext.getContext())) {
             
-			db = AppContext.getDB();
+			DAL db = AppContext.getDB();
 			db.openDataBase();
 
 			HashMap<String, Object>[] mapArray = null;

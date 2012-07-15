@@ -28,10 +28,13 @@ public final class R {
         public static final int stop_selector=0x7f02000e;
     }
     public static final class id {
-        public static final int btnCancelSettings=0x7f05001a;
+        public static final int LinearLayout3=0x7f050019;
+        public static final int TextView9=0x7f05001c;
+        public static final int btnCancelSettings=0x7f05001e;
         public static final int btnForceSync=0x7f050005;
-        public static final int btnSaveSettings=0x7f05001b;
+        public static final int btnSaveSettings=0x7f05001f;
         public static final int btnStartStopService=0x7f050006;
+        public static final int chkNotification=0x7f05001b;
         public static final int chkPrivate=0x7f050018;
         public static final int etFeed=0x7f050011;
         public static final int etKey=0x7f05000f;
@@ -40,7 +43,7 @@ public final class R {
         public static final int ivBattery=0x7f050004;
         public static final int linearLayout1=0x7f050001;
         public static final int linearLayout2=0x7f050016;
-        public static final int linearLayout3=0x7f050019;
+        public static final int linearLayout4=0x7f05001d;
         public static final int rlBattery=0x7f050003;
         public static final int rlMain=0x7f050000;
         public static final int scrollView1=0x7f050008;
@@ -53,6 +56,7 @@ public final class R {
         public static final int textView5=0x7f050012;
         public static final int textView6=0x7f050014;
         public static final int textView7=0x7f050017;
+        public static final int textView8=0x7f05001a;
         public static final int tvInfoFeed=0x7f050007;
         public static final int tvSignup=0x7f050009;
         public static final int tvTitleFeed=0x7f050002;
@@ -62,20 +66,24 @@ public final class R {
         public static final int settings=0x7f030001;
     }
     public static final class string {
-        public static final int apiKey=0x7f04001b;
+        public static final int apiKey=0x7f04001c;
         public static final int app_name=0x7f040000;
-        public static final int batteryInterval=0x7f04001d;
+        public static final int batteryInterval=0x7f04001e;
         public static final int btnForceSync=0x7f040007;
         public static final int btnStartServices=0x7f040005;
         public static final int btnStopServices=0x7f040006;
         public static final int cancel=0x7f04000f;
         public static final int changeSettings=0x7f040012;
-        public static final int couldNotConnect=0x7f04001f;
+        public static final int charging=0x7f04002a;
+        public static final int chargingUSB=0x7f04002b;
+        public static final int collectingData=0x7f040028;
+        public static final int couldNotConnect=0x7f040020;
         public static final int crashText=0x7f040001;
-        public static final int errorFeed=0x7f040023;
-        public static final int errorKey=0x7f040022;
-        public static final int feedID=0x7f04001c;
-        public static final int infoPrivateFeed=0x7f040024;
+        public static final int errorFeed=0x7f040024;
+        public static final int errorKey=0x7f040023;
+        public static final int feedID=0x7f04001d;
+        public static final int infoNotification=0x7f040026;
+        public static final int infoPrivateFeed=0x7f040025;
         public static final int msgStartServices=0x7f040003;
         public static final int msgStopServices=0x7f040004;
         public static final int msgSyncFailure=0x7f040009;
@@ -85,8 +93,8 @@ public final class R {
         public static final int msgWrongKey=0x7f04000b;
         public static final int msgWrongKeyAndFeed=0x7f04000d;
         public static final int no=0x7f040011;
-        public static final int noInternetConnection=0x7f040021;
-        public static final int pachubeInterval=0x7f04001e;
+        public static final int noInternetConnection=0x7f040022;
+        public static final int pachubeInterval=0x7f04001f;
         public static final int passOrKeyMissing=0x7f040017;
         public static final int password=0x7f040019;
         public static final int pleaseWait=0x7f040002;
@@ -95,10 +103,12 @@ public final class R {
         public static final int saveSettings=0x7f04000e;
         public static final int settings=0x7f040013;
         public static final int settingsInfo=0x7f040014;
-        public static final int titleViewFeed=0x7f040025;
+        public static final int showNotification=0x7f04001b;
+        public static final int titleViewFeed=0x7f040027;
+        public static final int unplugged=0x7f040029;
         public static final int userMissing=0x7f040016;
         public static final int username=0x7f040018;
-        public static final int wrongCredentials=0x7f040020;
+        public static final int wrongCredentials=0x7f040021;
         public static final int yes=0x7f040010;
     }
 }

@@ -66,6 +66,15 @@ public class Settings {
 		AppContext.settings.edit().putBoolean(AppContext.SETTINGS_PRIVATE,value).commit();
 	}
 	
+	public static boolean getNotification()
+	{
+		return AppContext.settings.getBoolean(AppContext.SETTINGS_NOTIFICATION,true);
+	}
+
+	public static void setNotification(boolean value){
+		AppContext.settings.edit().putBoolean(AppContext.SETTINGS_NOTIFICATION,value).commit();
+	}
+	
 	
 	public static boolean getServiceStarted()
 	{

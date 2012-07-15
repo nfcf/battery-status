@@ -27,6 +27,7 @@
 	<string name="username">Username (mandatory)</string>
 	<string name="password">Password (set this or the API Key)</string>
 	<string name="privateAccess">Make feed private?</string>
+	<string name="showNotification">Show Notification?</string>
 	<string name="apiKey">API Key (if you have one)</string>
 	<string name="feedID">Feed ID (if you have one)</string>
 	<string name="batteryInterval">Collect data interval (minutes)</string>
@@ -37,5 +38,10 @@
 	<string name="errorKey">An error occurred while trying to create the API key.</string>
 	<string name="errorFeed">An error occurred while trying to create the Cosm feed.</string>
 	<string name="infoPrivateFeed">* Since you have opted for having a private feed, this link will only work if you login at &lt;a href=&quot;https://cosm.com/feeds/?user=%1$s&quot;&gt;Cosm&lt;/a&gt; first.</string>
+	<string name="infoNotification">(Helps keep the services alive)</string>
 	<string name="titleViewFeed">&lt;a href=&quot;https://cosm.com/feeds/%1$s&quot;&gt;View Feed #%2$s&lt;/a&gt;%3$s</string>
+	<string name="collectingData">Collecting data&#8230;</string>
+	<string name="unplugged">Unplugged</string>
+	<string name="charging">Charging</string>
+	<string name="chargingUSB">Charging (USB)</string>
 </resources>

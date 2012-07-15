@@ -25,6 +25,7 @@ public class ActSettings extends Activity {
 	Spinner spBatteryInterval = null;
 	Spinner spCosmInterval = null;
 	CheckBox chkPrivate = null;
+	CheckBox chkNotification = null;
 	
 	/** Called when the activity is first created. */
     @Override 
@@ -44,6 +45,7 @@ public class ActSettings extends Activity {
     	spBatteryInterval = (Spinner) findViewById(R.id.spBatteryInterval);
     	spCosmInterval = (Spinner) findViewById(R.id.spCosmInterval);
     	chkPrivate = (CheckBox) findViewById(R.id.chkPrivate);
+    	chkNotification = (CheckBox) findViewById(R.id.chkNotification);
     }
 
     @Override
@@ -56,6 +58,7 @@ public class ActSettings extends Activity {
     	etKey.setText(Settings.getKey());
     	etFeed.setText(Settings.getFeed()); 
     	chkPrivate.setChecked(Settings.getPrivate());
+    	chkNotification.setChecked(Settings.getNotification());
     	
     	// Array of choices
     	String spBatteryValues[] = {"5","10","15","30"};
@@ -93,6 +96,7 @@ public class ActSettings extends Activity {
     		Settings.setKey(etKey.getText().toString());
     		Settings.setFeed(etFeed.getText().toString());
     		Settings.setPrivate(chkPrivate.isChecked());
+    		Settings.setNotification(chkNotification.isChecked());
 
     		if (spBatteryInterval.getSelectedItem() != null) {
     			try {

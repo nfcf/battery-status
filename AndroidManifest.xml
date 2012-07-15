@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nfcf.BatteryStatus"
-    android:versionCode="10"
-    android:versionName="1.4.0" > <!-- X.Y.z (X Major changes, Y Minor changes, z bug corrections) -->
-	<!-- Pachube is now Cosm! -->
+    android:versionCode="11"
+    android:versionName="1.5.0" > <!-- X.Y.z (X Major changes, Y Minor changes, z bug fixes) -->
+	<!-- If you have an HTC device, be aware of FAST BOOT option, as it won't start the application services automatically on REBOOT -->
 	
     <uses-sdk android:minSdkVersion="8" />
 
@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> 
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".AppContext"
@@ -31,7 +32,6 @@
 		<receiver android:name=".StartServicesReceiver" >
         <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED" />
-            <category android:name="android.intent.category.HOME" />
   		</intent-filter>
     	</receiver>
 
