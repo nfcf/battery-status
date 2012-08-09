@@ -91,10 +91,10 @@ public class ActSettings extends Activity {
     		//AppContext.tracker.trackEvent("Settings", "Collect Data Interval", null, Settings.getBatteryInterval());
 			//AppContext.tracker.trackEvent("Settings", "Send Data Interval", null, Settings.getCosmInterval());
     		
-    		Settings.setUser(etUser.getText().toString());
-    		Settings.setPass(etPass.getText().toString());
-    		Settings.setKey(etKey.getText().toString());
-    		Settings.setFeed(etFeed.getText().toString());
+    		Settings.setUser(etUser.getText().toString().trim());
+    		Settings.setPass(etPass.getText().toString().trim());
+    		Settings.setKey(etKey.getText().toString().trim());
+    		Settings.setFeed(etFeed.getText().toString().trim());
     		Settings.setPrivate(chkPrivate.isChecked());
     		Settings.setNotification(chkNotification.isChecked());
 

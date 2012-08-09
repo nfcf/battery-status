@@ -91,16 +91,16 @@ public class AppContext extends Application {
 
 		// tracker = GoogleAnalyticsTracker.getInstance();
 		// tracker.startNewSession("UA-29342743-1", 30, this);
-
+ 
 		// Checks to see if the service is running. If not (and it should), start it
 		if (Settings.getServiceStarted()) {
 			ActivityManager manager = (ActivityManager) AppContext.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 			for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-				if ("ServSendData".equals(service.service.getClassName())) {
+				if ("nfcf.BatteryStatus.Services.ServCollectData".equals(service.service.getClassName())) {
 					return;
 				}
 			}
-			AppContext.startServices();
+			AppContext.startServices(); 
 		}
 	}
 
@@ -162,7 +162,7 @@ public class AppContext extends Application {
 			//
 			// mNotificationManager.notify(NOTIFICATION_ID, notification);
 
-			Toast.makeText(ctx, R.string.msgStartServices, Toast.LENGTH_LONG).show();
+			if (!Settings.getNotification()) Toast.makeText(ctx, R.string.msgStartServices, Toast.LENGTH_LONG).show();
 
 		} else {
 			Settings.setServiceStarted(false);
@@ -204,7 +204,7 @@ public class AppContext extends Application {
 		// mNotificationManager.cancel(NOTIFICATION_ID);
 
 		try {
-			Toast.makeText(ActMain.getInstance(), R.string.msgStopServices, Toast.LENGTH_LONG).show();
+			if (!Settings.getNotification()) Toast.makeText(ActMain.getInstance(), R.string.msgStopServices, Toast.LENGTH_LONG).show();
 			ActMain.getInstance().updateControls();
 		} catch (Exception ex) {
 

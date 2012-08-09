@@ -120,8 +120,10 @@ public class ActMain extends Activity {
 			Thread t = new Thread(new Runnable() {
 				public void run() {
 					String msg = ServSendData.sendDataPoints();
-					progressDialog.dismiss();
-					progressDialog = null;
+					if (progressDialog != null) {
+						progressDialog.dismiss();
+						progressDialog = null;
+					}
 
 					Intent i = new Intent();
 					i.setAction(AppContext.FORCE_SYNC_COMPLETED);
@@ -281,8 +283,10 @@ public class ActMain extends Activity {
 					}
 				}
 
-				dialog.dismiss();
-
+				if (dialog != null) {
+					dialog.dismiss();
+				}
+				
 				Intent i = new Intent();
 				i.setAction(AppContext.START_SERVICES_COMPLETED);
 				AppContext.getContext().sendBroadcast(i);

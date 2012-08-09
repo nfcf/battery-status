@@ -1,7 +1,5 @@
 package nfcf.BatteryStatus.Services;
 
-import org.acra.ErrorReporter;
-
 import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.R;
 import nfcf.BatteryStatus.Activities.ActMain;
@@ -89,7 +87,7 @@ public class ServCollectData extends Service {
 	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
-		ErrorReporter.getInstance().handleSilentException(new Exception("Low memory condition detected"));
+		//ErrorReporter.getInstance().handleSilentException(new Exception("Low memory condition detected"));
 
 		if (Settings.getNotification()) {
 			// Stops the service and dismisses the notification
