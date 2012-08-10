@@ -150,7 +150,7 @@ public class AppContext extends Application {
 			// clicked
 			// Notification notification = new Notification(icon, tickerText,
 			// when);
-			// CharSequence contentTitle = "Battery Status - Cosm";
+			// CharSequence contentTitle = "Battery Status";
 			// CharSequence contentText = "Collecting data...";
 			// Intent notificationIntent = new Intent(ctx, ActMain.class);
 			// PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,
