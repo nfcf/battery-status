@@ -22,8 +22,9 @@ public class ActSettings extends Activity {
 	EditText etUser = null;
 	EditText etPass = null;
 	EditText etFeed = null;
-	Spinner spBatteryInterval = null;
-	Spinner spCosmInterval = null;
+	EditText etPebble = null;
+	Spinner spCollectDataInterval = null;
+	Spinner spSendDataInterval = null;
 	CheckBox chkPrivate = null;
 	CheckBox chkNotification = null;
 	
@@ -42,8 +43,9 @@ public class ActSettings extends Activity {
     	etPass = (EditText) findViewById(R.id.etPass);
     	etKey = (EditText) findViewById(R.id.etKey);
     	etFeed = (EditText) findViewById(R.id.etFeed);
-    	spBatteryInterval = (Spinner) findViewById(R.id.spBatteryInterval);
-    	spCosmInterval = (Spinner) findViewById(R.id.spCosmInterval);
+    	etPebble = (EditText) findViewById(R.id.etPebble);
+    	spCollectDataInterval = (Spinner) findViewById(R.id.spCollectDataInterval);
+    	spSendDataInterval = (Spinner) findViewById(R.id.spSendDataInterval);
     	chkPrivate = (CheckBox) findViewById(R.id.chkPrivate);
     	chkNotification = (CheckBox) findViewById(R.id.chkNotification);
     }
@@ -56,24 +58,25 @@ public class ActSettings extends Activity {
     	etUser.setText(Settings.getUser());
     	etPass.setText(Settings.getPass());
     	etKey.setText(Settings.getKey());
-    	etFeed.setText(Settings.getFeed()); 
+    	etFeed.setText(Settings.getFeed());
+    	etPebble.setText(Settings.getPebbleNotificationLevels()); 
     	chkPrivate.setChecked(Settings.getPrivate());
-    	chkNotification.setChecked(Settings.getNotification());
+    	chkNotification.setChecked(Settings.getShowNotification());
     	
     	// Array of choices
-    	String spBatteryValues[] = {"5","10","15","30"};
-    	String spCosmValues[] = {"Only when the phone is awake","5","10","15","30","60","120"};
+    	String spCollectIntervalValues[] = {"1","3","5","10","15","30"};
+    	String spSendIntervalValues[] = {"Only when the phone is awake","5","10","15","30","60","120"};
 
     	// Application of the Array to the Spinners
-    	ArrayAdapter<String> adapterBattery = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, spBatteryValues);
+    	ArrayAdapter<String> adapterBattery = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, spCollectIntervalValues);
     	adapterBattery.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
-    	spBatteryInterval.setAdapter(adapterBattery);
-    	spBatteryInterval.setSelection(adapterBattery.getPosition(String.valueOf(Settings.getBatteryInterval())));
+    	spCollectDataInterval.setAdapter(adapterBattery);
+    	spCollectDataInterval.setSelection(adapterBattery.getPosition(String.valueOf(Settings.getCollectInterval())));
     	
-    	ArrayAdapter<String> adapterCosm = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, spCosmValues);
+    	ArrayAdapter<String> adapterCosm = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spSendIntervalValues);
     	adapterCosm.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
-    	spCosmInterval.setAdapter(adapterCosm);
-    	spCosmInterval.setSelection(adapterCosm.getPosition(String.valueOf(Settings.getCosmInterval())));
+    	spSendDataInterval.setAdapter(adapterCosm);
+    	spSendDataInterval.setSelection(adapterCosm.getPosition(String.valueOf(Settings.getSendInterval())));
     	
     	
     }
@@ -87,30 +90,27 @@ public class ActSettings extends Activity {
     public void btnSaveSettings_onClick(View v)
     {
     	if (isActivityValid()) {
-    		//AppContext.tracker.trackEvent("Button Pressed", "Save Settings", null, 0);
-    		//AppContext.tracker.trackEvent("Settings", "Collect Data Interval", null, Settings.getBatteryInterval());
-			//AppContext.tracker.trackEvent("Settings", "Send Data Interval", null, Settings.getCosmInterval());
-    		
     		Settings.setUser(etUser.getText().toString().trim());
     		Settings.setPass(etPass.getText().toString().trim());
     		Settings.setKey(etKey.getText().toString().trim());
     		Settings.setFeed(etFeed.getText().toString().trim());
+    		Settings.setPebbleNotificationLevels(etPebble.getText().toString().trim());
     		Settings.setPrivate(chkPrivate.isChecked());
-    		Settings.setNotification(chkNotification.isChecked());
+    		Settings.setShowNotification(chkNotification.isChecked());
 
-    		if (spBatteryInterval.getSelectedItem() != null) {
+    		if (spCollectDataInterval.getSelectedItem() != null) {
     			try {
-    				Settings.setBatteryInterval(Integer.parseInt(spBatteryInterval.getSelectedItem().toString()));	
+    				Settings.setCollectInterval(Integer.parseInt(spCollectDataInterval.getSelectedItem().toString()));	
 				} catch (Exception e) {
-					Settings.setBatteryInterval(0);
+					Settings.setCollectInterval(0);
 				}
     		}
     		
-    		if (spCosmInterval.getSelectedItem() != null) {
+    		if (spSendDataInterval.getSelectedItem() != null) {
     			try {
-    				Settings.setCosmInterval(Integer.parseInt(spCosmInterval.getSelectedItem().toString()));	
+    				Settings.setSendInterval(Integer.parseInt(spSendDataInterval.getSelectedItem().toString()));	
 				} catch (Exception e) {
-					Settings.setCosmInterval(0);
+					Settings.setSendInterval(0);
 				}
     		}
 

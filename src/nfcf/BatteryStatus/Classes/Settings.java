@@ -37,23 +37,31 @@ public class Settings {
 		AppContext.settings.edit().putString(AppContext.SETTINGS_FEED,value).commit();
 	}
 
+	public static String getPebbleNotificationLevels() {
+		return AppContext.settings.getString(AppContext.SETTINGS_PEBBLE, "75,50,25,5");
+	}
+
+	public static void setPebbleNotificationLevels(String value){
+		if (value == null) value = "";
+		AppContext.settings.edit().putString(AppContext.SETTINGS_PEBBLE,value).commit();
+	}
 	
-	public static int getBatteryInterval()
+	public static int getCollectInterval()
 	{
-		return AppContext.settings.getInt(AppContext.SETTINGS_BATTERY_INTERVAL,5);
+		return AppContext.settings.getInt(AppContext.SETTINGS_COLLECT_INTERVAL,5);
 	}
 
-	public static void setBatteryInterval(int value){
-		AppContext.settings.edit().putInt(AppContext.SETTINGS_BATTERY_INTERVAL,value).commit();
+	public static void setCollectInterval(int value){
+		AppContext.settings.edit().putInt(AppContext.SETTINGS_COLLECT_INTERVAL,value).commit();
 	}
 
-	public static int getCosmInterval()
+	public static int getSendInterval()
 	{
-		return AppContext.settings.getInt(AppContext.SETTINGS_COSM_INTERVAL,30);
+		return AppContext.settings.getInt(AppContext.SETTINGS_SEND_INTERVAL,30);
 	}
 
-	public static void setCosmInterval(int value){
-		AppContext.settings.edit().putInt(AppContext.SETTINGS_COSM_INTERVAL,value).commit();
+	public static void setSendInterval(int value){
+		AppContext.settings.edit().putInt(AppContext.SETTINGS_SEND_INTERVAL,value).commit();
 	}
 
 
@@ -66,12 +74,12 @@ public class Settings {
 		AppContext.settings.edit().putBoolean(AppContext.SETTINGS_PRIVATE,value).commit();
 	}
 	
-	public static boolean getNotification()
+	public static boolean getShowNotification()
 	{
 		return AppContext.settings.getBoolean(AppContext.SETTINGS_NOTIFICATION,true);
 	}
 
-	public static void setNotification(boolean value){
+	public static void setShowNotification(boolean value){
 		AppContext.settings.edit().putBoolean(AppContext.SETTINGS_NOTIFICATION,value).commit();
 	}
 	

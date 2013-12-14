@@ -20,7 +20,7 @@
 	<string name="no">No</string>
 	<string name="changeSettings">Change settings</string>
 	<string name="settings">Settings</string>
-	<string name="settingsInfo">If you don\'t have an online account yet, you can create one at &lt;a href=&quot;https://cosm.com/signup&quot;&gt;https://cosm.com/signup&lt;/a&gt;</string>
+	<string name="settingsInfo">If you don\'t have an online account yet, you can create one at &lt;a href=&quot;https://xively.com/signup&quot;&gt;https://xively.com/signup&lt;/a&gt;</string>
 	<string name="questionText">Do you wish to use the same settings as before?</string>
 	<string name="userMissing">The username field is mandatory.</string>
 	<string name="passOrKeyMissing">You need to set either the password field or the API key field.</string>
@@ -30,8 +30,9 @@
 	<string name="showNotification">Show Notification?</string>
 	<string name="apiKey">API Key (if you have one)</string>
 	<string name="feedID">Feed ID (if you have one)</string>
-	<string name="batteryInterval">Collect data interval (minutes)</string>
-	<string name="pachubeInterval">Send data interval (minutes)</string>
+	<string name="pebble">Pebble Notification levels (percentage)</string>
+	<string name="collectDataInterval">Collect data interval (minutes)</string>
+	<string name="sendDataInterval">Send data interval (minutes)</string>
 	<string name="couldNotConnect">Couldn\'t connect to the server.</string>
 	<string name="wrongCredentials">Your credentials may be wrong.</string>
 	<string name="noInternetConnection">Make sure you have an active internet connection.</string>
@@ -39,7 +40,7 @@
 	<string name="errorFeed">An error occurred while trying to create the feed.</string>
 	<string name="infoPrivateFeed">* Since you have opted for having a private feed, this link will only work if you login at &lt;a href=&quot;https://cosm.com/feeds/?user=%1$s&quot;&gt;Cosm&lt;/a&gt; first.</string>
 	<string name="infoNotification">(Helps keep the services alive)</string>
-	<string name="titleViewFeed">&lt;a href=&quot;https://cosm.com/feeds/%1$s&quot;&gt;View Feed #%2$s&lt;/a&gt;%3$s</string>
+	<string name="titleViewFeed">&lt;a href=&quot;https://xively.com/feeds/%1$s&quot;&gt;View Feed #%2$s&lt;/a&gt;%3$s</string>
 	<string name="collectingData">Collecting data&#8230;</string>
 	<string name="unplugged">Unplugged</string>
 	<string name="charging">Charging</string>

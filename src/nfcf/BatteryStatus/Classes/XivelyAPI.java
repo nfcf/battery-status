@@ -26,11 +26,11 @@ import org.json.JSONObject;
 import android.util.Base64;
 import android.util.Log;
 
-public class CosmAPI 
+public class XivelyAPI 
 {
-	public static final String COSM_API_URL = "http://api.cosm.com/v2/";
+	public static final String XIVELY_API_URL = "http://api.xively.com/v2/";
 	
-	public static class CosmResponse {
+	public static class XivelyResponse {
 		private int statusCode;
 		private String value;
 		
@@ -226,18 +226,18 @@ public class CosmAPI
 	}
 	
 	//Check if the desired key exists and if it has the desired access status
-	public static CosmResponse checkKey(String key, Boolean privateAccess) {
-		CosmResponse returnValue = null; 
+	public static XivelyResponse checkKey(String key, Boolean privateAccess) {
+		XivelyResponse returnValue = null; 
         
     	try {
     		HttpClient hc = new DefaultHttpClient(getHTTPParams());
-    		HttpGet get= new HttpGet(COSM_API_URL + "keys/" + key);
+    		HttpGet get= new HttpGet(XIVELY_API_URL + "keys/" + key);
     		//get.addHeader("Authorization", "Basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
     		get.addHeader("X-ApiKey", key);
     		
     		HttpResponse rp = hc.execute(get);
 
-    		returnValue = new CosmResponse();
+    		returnValue = new XivelyResponse();
     		returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
     		Log.d("Check Key", "Status Code: " + rp.getStatusLine().getStatusCode());
     		if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -263,18 +263,18 @@ public class CosmAPI
     	return returnValue;
 	}
 	
-	public static CosmResponse findKey(String user, String pass, String labelToFind) {
-		CosmResponse returnValue = null; 
+	public static XivelyResponse findKey(String user, String pass, String labelToFind) {
+		XivelyResponse returnValue = null; 
         
 		//List keys with the desirable label
     	try {
     		HttpClient hc = new DefaultHttpClient(getHTTPParams());
-    		HttpGet get= new HttpGet(COSM_API_URL + "keys");
+    		HttpGet get= new HttpGet(XIVELY_API_URL + "keys");
     		get.addHeader("Authorization", "Basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
 
     		HttpResponse rp = hc.execute(get);
 
-    		returnValue = new CosmResponse();
+    		returnValue = new XivelyResponse();
     		returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
     		Log.d("Find Key", "Status Code: " + rp.getStatusLine().getStatusCode());
     		if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
@@ -305,8 +305,8 @@ public class CosmAPI
     	return returnValue;
 	}
 	
-	public static CosmResponse createKey(String user, String pass, String labelToCreate, Boolean privateAccess) {
-		CosmResponse returnValue = null; 
+	public static XivelyResponse createKey(String user, String pass, String labelToCreate, Boolean privateAccess) {
+		XivelyResponse returnValue = null; 
 		
 		//Create key with the desirable label
 		JSONObject jsonCreateKeyObject = new JSONObject();
@@ -332,7 +332,7 @@ public class CosmAPI
 
 		try {
 			HttpClient hc = new DefaultHttpClient(getHTTPParams());
-			HttpPost post = new HttpPost(COSM_API_URL + "keys");
+			HttpPost post = new HttpPost(XIVELY_API_URL + "keys");
 			post.addHeader("Authorization", "Basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
 
 			StringEntity se;
@@ -341,7 +341,7 @@ public class CosmAPI
 			post.setEntity(se);
 			HttpResponse rp = hc.execute(post);
 
-			returnValue = new CosmResponse();
+			returnValue = new XivelyResponse();
     		returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
 			Log.d("Create Key", "Status Code: " + String.valueOf(rp.getStatusLine().getStatusCode()));
 			if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_CREATED)
@@ -369,8 +369,8 @@ public class CosmAPI
 	}
 	
 	//Check if the desired feed exists and if it has the desired access status
-	public static CosmResponse checkFeed(String key, String feed, Boolean privateAccess) {
-		CosmResponse returnValue = null; 
+	public static XivelyResponse checkFeed(String key, String feed, Boolean privateAccess) {
+		XivelyResponse returnValue = null; 
 		
 		JSONObject jsonCheckFeedObject = new JSONObject();
 
@@ -383,7 +383,7 @@ public class CosmAPI
 		
 		try {
 			HttpClient hc = new DefaultHttpClient(getHTTPParams());
-			HttpPut put= new HttpPut(COSM_API_URL + "feeds/" + feed);
+			HttpPut put= new HttpPut(XIVELY_API_URL + "feeds/" + feed);
 			//put.addHeader("Authorization", "Basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
 			put.addHeader("X-ApiKey", key);
 
@@ -393,7 +393,7 @@ public class CosmAPI
 			put.setEntity(se);
 			HttpResponse rp = hc.execute(put);
 			
-			returnValue = new CosmResponse();
+			returnValue = new XivelyResponse();
 			returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
 			Log.d("Check Feed", "Status Code: " + rp.getStatusLine().getStatusCode());
 			if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -417,19 +417,19 @@ public class CosmAPI
 	}
 
 	//List Feeds and see if yours already exist
-	public static CosmResponse findFeed(String user, String key, String titleToFind) {
-		CosmResponse returnValue = null; 
+	public static XivelyResponse findFeed(String user, String key, String titleToFind) {
+		XivelyResponse returnValue = null; 
 		
     	try {
     		
     		HttpClient hc = new DefaultHttpClient(getHTTPParams());
-    		HttpGet get= new HttpGet(COSM_API_URL + "feeds?user=" + user + "&content=summary"); //&q=" + URLEncoder.encode(titleToFind, "utf-8"));
+    		HttpGet get= new HttpGet(XIVELY_API_URL + "feeds?user=" + user + "&content=summary"); //&q=" + URLEncoder.encode(titleToFind, "utf-8"));
     		//post.addHeader("Authorization", "Basic " + Base64.encodeToString((user + ":" + pass).getBytes(), Base64.NO_WRAP));
     		get.addHeader("X-ApiKey", key);
 
     		HttpResponse rp = hc.execute(get);
 
-    		returnValue = new CosmResponse();
+    		returnValue = new XivelyResponse();
     		returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
     		Log.d("Find Feed", "Status Code: " + rp.getStatusLine().getStatusCode());
     		if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
@@ -460,8 +460,8 @@ public class CosmAPI
     	return returnValue;
 	}
 	
-	public static CosmResponse createFeed(String key, String titleToCreate, String description, Boolean privateAccess) {
-		CosmResponse returnValue = null; 
+	public static XivelyResponse createFeed(String key, String titleToCreate, String description, Boolean privateAccess) {
+		XivelyResponse returnValue = null; 
 		
 		JSONObject jsonCreateFeedObject = new JSONObject();
 		JSONArray jsonTagsArray = new JSONArray();
@@ -502,7 +502,7 @@ public class CosmAPI
 
 		try {
 			HttpClient hc = new DefaultHttpClient(getHTTPParams());
-			HttpPost post = new HttpPost(COSM_API_URL + "feeds");
+			HttpPost post = new HttpPost(XIVELY_API_URL + "feeds");
 			post.addHeader("X-ApiKey", key);
 
 			StringEntity se;
@@ -511,7 +511,7 @@ public class CosmAPI
 			post.setEntity(se);
 			HttpResponse rp = hc.execute(post);
 
-			returnValue = new CosmResponse();
+			returnValue = new XivelyResponse();
     		returnValue.setStatusCode(rp.getStatusLine().getStatusCode());
 			Log.d("Create Feed", "Status Code: " + String.valueOf(rp.getStatusLine().getStatusCode()));
 			if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_CREATED)
@@ -550,7 +550,7 @@ public class CosmAPI
 
 		try {
 			HttpClient hc = new DefaultHttpClient(getHTTPParams());
-			HttpPost post = new HttpPost(COSM_API_URL + "feeds/" + feed + "/datastreams");
+			HttpPost post = new HttpPost(XIVELY_API_URL + "feeds/" + feed + "/datastreams");
 			post.addHeader("X-ApiKey", key);
 
 			StringEntity se;
@@ -582,7 +582,7 @@ public class CosmAPI
 		try
 		{
 			HttpClient hc = new DefaultHttpClient(getHTTPParams(20000));
-			HttpPost post = new HttpPost(COSM_API_URL + "feeds/" + feed + "/datastreams/" + datastream + "/datapoints");
+			HttpPost post = new HttpPost(XIVELY_API_URL + "feeds/" + feed + "/datastreams/" + datastream + "/datapoints");
 			post.addHeader("X-ApiKey", key);
 
 			StringEntity se = new StringEntity(jsonContent,HTTP.UTF_8);

@@ -2,8 +2,8 @@ package nfcf.BatteryStatus.Activities;
 
 import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.R;
-import nfcf.BatteryStatus.Classes.CosmAPI;
 import nfcf.BatteryStatus.Classes.Settings;
+import nfcf.BatteryStatus.Classes.XivelyAPI;
 import nfcf.BatteryStatus.Services.ServSendData;
 import nfcf.BatteryStatus.Utils.PhoneUtils;
 import nfcf.BatteryStatus.Utils.StringUtils;
@@ -214,11 +214,11 @@ public class ActMain extends Activity {
 			public void run() {
 				AppContext.lastStatusCode = 0;
 
-				CosmAPI.CosmResponse key = null;
+				XivelyAPI.XivelyResponse key = null;
 				if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getKey())) {
 					// Check if the key in settings exist and has valid
 					// permissions (private_access)
-					key = CosmAPI.checkKey(Settings.getKey(), Settings.getPrivate());
+					key = XivelyAPI.checkKey(Settings.getKey(), Settings.getPrivate());
 					if (key != null) {
 						// Overwrites the key value on the Settings. If the key
 						// is valid, it stays the same, if it isn't then erase
@@ -234,12 +234,12 @@ public class ActMain extends Activity {
 				if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getUser()) && !StringUtils.isNullOrBlank(Settings.getPass())
 						&& StringUtils.isNullOrBlank(Settings.getKey())) {
 					// Check if a key already exists
-					key = CosmAPI.findKey(Settings.getUser(), Settings.getPass(), "Battery Status - Cosm key - "
+					key = XivelyAPI.findKey(Settings.getUser(), Settings.getPass(), "Battery Status - Cosm key - "
 							+ (Settings.getPrivate() ? "Private" : "Public"));
 					// Create Key if necessary. If key = null, then probably a
 					// network error occurred and so there's no need to continue
 					if (key != null && StringUtils.isNullOrBlank(key.getValue())) {
-						key = CosmAPI.createKey(Settings.getUser(), Settings.getPass(), "Battery Status - Cosm key - "
+						key = XivelyAPI.createKey(Settings.getUser(), Settings.getPass(), "Battery Status - Cosm key - "
 								+ (Settings.getPrivate() ? "Private" : "Public"), Settings.getPrivate());
 					}
 					if (key != null) {
@@ -249,11 +249,11 @@ public class ActMain extends Activity {
 					}
 				}
 
-				CosmAPI.CosmResponse feed = null;
+				XivelyAPI.XivelyResponse feed = null;
 				if (PhoneUtils.isOnline(ActMain.this) && !StringUtils.isNullOrBlank(Settings.getFeed())) {
 					// Check if the feed in settings exist and has valid
 					// permissions (private_access)
-					feed = CosmAPI.checkFeed(Settings.getKey(), Settings.getFeed(), Settings.getPrivate());
+					feed = XivelyAPI.checkFeed(Settings.getKey(), Settings.getFeed(), Settings.getPrivate());
 					if (feed != null) {
 						// Overwrites the feed value on the Settings. If the
 						// feed exists, it stays the same, if it isn't then
@@ -270,10 +270,10 @@ public class ActMain extends Activity {
 					// Check if a feed already exists. If feed = null, then
 					// probably a network error occurred and so there's no need
 					// to continue
-					feed = CosmAPI.findFeed(Settings.getUser(), Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser());
+					feed = XivelyAPI.findFeed(Settings.getUser(), Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser());
 					// Create Feed if necessary
 					if (feed != null && StringUtils.isNullOrBlank(feed.getValue())) {
-						feed = CosmAPI.createFeed(Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser(),
+						feed = XivelyAPI.createFeed(Settings.getKey(), "Battery Status - " + Build.MODEL + " - " + Settings.getUser(),
 								"Battery information from my Android device", Settings.getPrivate());
 					}
 					if (feed != null) {

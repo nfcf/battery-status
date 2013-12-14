@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nfcf.BatteryStatus"
-    android:versionCode="13"
-    android:versionName="1.5.2" > <!-- X.Y.z (X Major changes, Y Minor changes, z bug fixes) -->
-	<!-- Removed toast when services restart and a notification exists -->
-	<!-- Due to some possible trademark infringement, I decided to remove any Cosm keyword from the application -->
+    android:versionCode="14"
+    android:versionName="1.5.3" > <!-- X.Y.z (X Major changes, Y Minor changes, z bug fixes) -->
+	<!-- Pebble -->
+	<!-- Changed to Xively -->
 	
     <uses-sdk android:minSdkVersion="8" />
 

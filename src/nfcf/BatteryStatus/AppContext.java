@@ -33,9 +33,8 @@ public class AppContext extends Application {
 	private static AppContext instance = null;
 	private static DAL db = null;
 	public static NotificationManager mNotificationManager;
-	// public static GoogleAnalyticsTracker tracker = null;
 
-	public static PendingIntent pendingBatteryIntent = null;
+	public static PendingIntent pendingCollectDataIntent = null;
 	public static PendingIntent pendingSendDataIntent = null;
 
 	public static final String START_SERVICES_COMPLETED = "nfcf.BatteryStatus.intent.action.START_SERVICES_COMPLETED";
@@ -52,6 +51,8 @@ public class AppContext extends Application {
 	public static final String BLUETOOTH = "bluetooth";
 	public static final String PHONECALL = "phonecall";
 	public static final String RXTX = "RxTx";
+	public static final String DEPLETION = "depletion";
+	public static final String TIME = "time";
 
 	private static final String LAST_VALUES_FILENAME = "lastValues";
 	private static final String SETTINGS_FILENAME = "settings";
@@ -60,8 +61,9 @@ public class AppContext extends Application {
 	public static final String SETTINGS_PASS = "pass";
 	public static final String SETTINGS_KEY = "key";
 	public static final String SETTINGS_FEED = "feed";
-	public static final String SETTINGS_BATTERY_INTERVAL = "battery_interval";
-	public static final String SETTINGS_COSM_INTERVAL = "pachube_interval";
+	public static final String SETTINGS_PEBBLE = "pebble";
+	public static final String SETTINGS_COLLECT_INTERVAL = "battery_interval";
+	public static final String SETTINGS_SEND_INTERVAL = "pachube_interval";
 	public static final String SETTINGS_PRIVATE = "private";
 	public static final String SETTINGS_NOTIFICATION = "notification";
 	public static final String SETTINGS_SERVICES_STARTED = "services_started";
@@ -88,9 +90,6 @@ public class AppContext extends Application {
 		lastValue = this.getSharedPreferences(LAST_VALUES_FILENAME, Context.MODE_PRIVATE);
 
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-		// tracker = GoogleAnalyticsTracker.getInstance();
-		// tracker.startNewSession("UA-29342743-1", 30, this);
  
 		// Checks to see if the service is running. If not (and it should), start it
 		if (Settings.getServiceStarted()) {
@@ -124,17 +123,17 @@ public class AppContext extends Application {
 			Settings.setServiceStarted(true);
 			
 			Intent batteryIntent = new Intent(ctx, ServBattery.class);
-			AppContext.pendingBatteryIntent = PendingIntent.getService(AppContext.getContext(), 0, batteryIntent, 0);
+			AppContext.pendingCollectDataIntent = PendingIntent.getService(AppContext.getContext(), 0, batteryIntent, 0);
 
 			Intent sendDataIntent = new Intent(ctx, ServSendData.class);
 			AppContext.pendingSendDataIntent = PendingIntent.getService(AppContext.getContext(), 0, sendDataIntent, 0);
 
 			AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, Settings.getBatteryInterval() * 60 * 1000,
-					AppContext.pendingBatteryIntent);
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, Settings.getCollectInterval() * 60 * 1000,
+					AppContext.pendingCollectDataIntent);
 
-			if (Settings.getCosmInterval() > 0) {
-				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, Settings.getCosmInterval() * 60 * 1000,
+			if (Settings.getSendInterval() > 0) {
+				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, Settings.getSendInterval() * 60 * 1000,
 						AppContext.pendingSendDataIntent);
 			} else {
 				ctx.startService(new Intent(AppContext.getContext(), ServSendData.class));
@@ -142,27 +141,7 @@ public class AppContext extends Application {
 
 			ctx.startService(new Intent(AppContext.getContext(), ServCollectData.class));
 
-			// //Set the notification icon and message
-			// int icon = R.drawable.ic_launcher;
-			// CharSequence tickerText = ctx.getText(R.string.msgStartServices);
-			// long when = System.currentTimeMillis();
-			// //Set the notification contents and which intent to call when
-			// clicked
-			// Notification notification = new Notification(icon, tickerText,
-			// when);
-			// CharSequence contentTitle = "Battery Status";
-			// CharSequence contentText = "Collecting data...";
-			// Intent notificationIntent = new Intent(ctx, ActMain.class);
-			// PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,
-			// notificationIntent, 0);
-			//
-			// notification.setLatestEventInfo(ctx, contentTitle, contentText,
-			// contentIntent);
-			// notification.flags |= Notification.FLAG_ONGOING_EVENT;
-			//
-			// mNotificationManager.notify(NOTIFICATION_ID, notification);
-
-			if (!Settings.getNotification()) Toast.makeText(ctx, R.string.msgStartServices, Toast.LENGTH_LONG).show();
+			if (!Settings.getShowNotification()) Toast.makeText(ctx, R.string.msgStartServices, Toast.LENGTH_LONG).show();
 
 		} else {
 			Settings.setServiceStarted(false);
@@ -191,9 +170,9 @@ public class AppContext extends Application {
 		Settings.setServiceStarted(false);
 
 		AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
-		alarmManager.cancel(AppContext.pendingBatteryIntent);
+		alarmManager.cancel(AppContext.pendingCollectDataIntent);
 
-		if (Settings.getCosmInterval() > 0) {
+		if (Settings.getSendInterval() > 0) {
 			alarmManager.cancel(AppContext.pendingSendDataIntent);
 		} else {
 			ctx.stopService(new Intent(ctx, ServSendData.class));
@@ -204,7 +183,7 @@ public class AppContext extends Application {
 		// mNotificationManager.cancel(NOTIFICATION_ID);
 
 		try {
-			if (!Settings.getNotification()) Toast.makeText(ActMain.getInstance(), R.string.msgStopServices, Toast.LENGTH_LONG).show();
+			if (!Settings.getShowNotification()) Toast.makeText(ActMain.getInstance(), R.string.msgStopServices, Toast.LENGTH_LONG).show();
 			ActMain.getInstance().updateControls();
 		} catch (Exception ex) {
 

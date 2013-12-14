@@ -46,7 +46,7 @@ public class ServCollectData extends Service {
 		IntentFilter filter6 = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 		registerReceiver(bluetoothReceiver, filter6);
 
-		if (Settings.getNotification()) {
+		if (Settings.getShowNotification()) {
 			// Set the notification icon and message
 			Context ctx = AppContext.getContext();
 			int icon = ctx.getResources().getIdentifier("ic_launcher", "drawable", getPackageName());
@@ -87,14 +87,14 @@ public class ServCollectData extends Service {
 	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
-		//ErrorReporter.getInstance().handleSilentException(new Exception("Low memory condition detected"));
+//		ErrorReporter.getInstance().handleSilentException(new Exception("Low memory condition detected"));
 
-		if (Settings.getNotification()) {
-			// Stops the service and dismisses the notification
-			stopForeground(true);
-		}
-
-		stopSelf();
+//		if (Settings.getShowNotification()) {
+//			// Stops the service and dismisses the notification
+//			stopForeground(true);
+//		}
+//
+//		stopSelf();
 	}
 
 	@Override

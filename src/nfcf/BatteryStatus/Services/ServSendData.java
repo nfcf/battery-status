@@ -8,8 +8,8 @@ import nfcf.BatteryStatus.AppContext;
 import nfcf.BatteryStatus.R;
 import nfcf.BatteryStatus.Activities.ActMain;
 import nfcf.BatteryStatus.Classes.DAL;
-import nfcf.BatteryStatus.Classes.CosmAPI;
 import nfcf.BatteryStatus.Classes.Settings;
+import nfcf.BatteryStatus.Classes.XivelyAPI;
 import nfcf.BatteryStatus.Utils.PhoneUtils;
 
 import org.acra.ErrorReporter;
@@ -24,7 +24,7 @@ import android.util.Log;
 
 public class ServSendData extends Service {
 
-	Timer timerCosm = null;
+	Timer timerSendData = null;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -36,9 +36,9 @@ public class ServSendData extends Service {
 		super.onCreate();
 		Log.d("Send Data Service", "Starting");
 
-		if (Settings.getCosmInterval() == 0) {
-			timerCosm = new Timer();
-			timerCosm.schedule(new TimerTask() {
+		if (Settings.getSendInterval() == 0) {
+			timerSendData = new Timer();
+			timerSendData.schedule(new TimerTask() {
 				@Override
 				public void run() {
 					sendDataPoints();
@@ -54,10 +54,10 @@ public class ServSendData extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.d("Send Data Service", "Stopping");
-		if (Settings.getCosmInterval() == 0) {
-			if (timerCosm != null) {
-				timerCosm.cancel();
-				timerCosm.purge();
+		if (Settings.getSendInterval() == 0) {
+			if (timerSendData != null) {
+				timerSendData.cancel();
+				timerSendData.purge();
 			}
 		}
 	}
@@ -109,7 +109,7 @@ public class ServSendData extends Service {
 			}
 
 			if (jsonArray.length() > 0) {
-				if (CosmAPI.sendDataPoints(Settings.getFeed(), type, Settings.getKey(), jsonMainObject.toString())) {
+				if (XivelyAPI.sendDataPoints(Settings.getFeed(), type, Settings.getKey(), jsonMainObject.toString())) {
 					AppContext.getDB().deleteDatapoints(type, idLimit);
 					Log.d("sendDataPoints", type + " datapoints sent!");
 				} else {
