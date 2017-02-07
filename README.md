@@ -7,7 +7,7 @@ This app runs in the background collecting you battery level, voltage, temperatu
 
 ## Privacy Policy
 
-All / any information collected from your device is encrypted and uploaded to Xively.  
+All / any information collected from your device is encrypted and uploaded to your Xively account.  
 We won't be using or sharing any of your personal info.  
 
 ## License
