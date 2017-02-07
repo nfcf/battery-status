@@ -5,6 +5,11 @@ This app runs in the background collecting you battery level, voltage, temperatu
 
 **Note:** I wrote this application back in **2011/2012** while learning to code for Android, and I haven't maintained it much... That's why I decided to open-sourced it - should have done it way back then I know...
 
+## Privacy Policy
+
+All / any information collected from your device is encrypted and uploaded to Xively.  
+We won't be using or sharing any of your personal info.  
+
 ## License
 
 ```
